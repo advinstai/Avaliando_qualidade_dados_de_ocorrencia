@@ -1,4 +1,4 @@
-# Avalia-o_de_qualidade_de_dados_de_biodiversidade
+# Projeto de Avaliação de qualidade de dados de biodiversidade
 
 Estudos na área de ecologia e conservação da biodiversidade são baseados em observações da natureza. Para que tais estudos normalmente é necessário utilizar uma grande quantidade de dados em grandes escala geografica e temporal.
 
