@@ -11,7 +11,7 @@ import sys
 import pandas as pd
 
 # Classes
-class MyData:
+class FindNan:
     
     def __init__(self, my_csv):
         try:
@@ -39,5 +39,5 @@ class MyData:
         
 
 csv_file = 'portalbio_export_17-10-2019-13-06-22.csv'  # Arquivo CSV que será carregado
-csv_open = MyData(csv_file)  # Criação da instância da classe MyData
+csv_open = FindNan(csv_file)  # Criação da instância da classe MyData
 mean_nan_values = csv_open.getEmpty() #  Utiliza o método para obter as células vazias
