@@ -19,11 +19,13 @@ class app_hub():
 	lista_completa = []
 
 	#Metodo construtor
-	def __init__(self):
-		file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf8')
-		self.linhas = file.readlines()
+	#def __init__(self):
+	#	file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf8')
+	#	self.linhas = file.readlines()
 
 	def carregar(self, path):
+		file = open(path, 'r', encoding='utf8')
+		self.linhas = file.readlines()
 		df = pd.read_csv(path)
 		lista = df.values.tolist()
 		return df, lista
@@ -43,10 +45,9 @@ class app_hub():
 		return colunas_vazias
 
 	#Metodo para retornar a porcetagem de itens sem informação em cada coluna
-	def media_nulls(self, lista):
-
+	def media_nulls(self, lista, num):
 	#Map aplicando a função lambda em cada item da lista
-		return map(lambda item: item /len(lista), lista)
+		return map(lambda item: item /num.shape[0], lista)
 
 
 class app_grafica(app_hub):
@@ -89,7 +90,7 @@ class app_grafica(app_hub):
 			if self.option_01 == opcoes[1]:
 				st.markdown('### Porcetagem de valores faltantes por coluna: ')
 				#st.bar_chart(app.media_nulls(app.count_nulls(app.construir(app.linhas))))
-				st.bar_chart(app.media_nulls(app.count_nulls(lista)))
+				st.bar_chart(app.media_nulls(app.count_nulls(lista),dados))
 				if st.checkbox('Mostrar lista de porcetagem'):
 					st.write(list(app.media_nulls(app.count_nulls(app.construir(app.linhas)))))
 
@@ -98,14 +99,17 @@ class app_grafica(app_hub):
 			st.write('Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.')
 			#verificaTaxonomia metodo importado do felipe
 			st.bar_chart(verificaTaxonomia(app.construir(app.linhas)))
+			#st.bar_chart(verificaTaxonomia(app.construir(lista)))
 			if st.checkbox('Valores por Coluna'):
 				st.write(verificaTaxonomia(app.construir(app.linhas)))
 
 		#Exercicio 03  Filtros
 		if self.option == app.dicionario[2]:
 			mapa_bio = pd.read_csv('Arquivos/mapa_biodiversidade.csv', header=0)
+			#mapa_bio = pd.DataFrame(dados)
+			#mapa_bio.rename(columns = {'Latitude':'lat', 'Longitude':'lon'}, inplace = True)
 			st.write('Monte filtros de ocorrências por estados, nome de espécie (nome exato ou parte do nome) e categoria de ameaça, e outros filtros que julgar relevante.')
-			municipios = st.multiselect("Escolha os municipios", list(set(mapa_bio['Municipio'])), ["Londrina"])
+			municipios = st.multiselect("Escolha os municipios", list(set(mapa_bio['Municipio']))) #, ["Londrina"]
 			data = mapa_bio.loc[mapa_bio['Municipio'].isin(municipios)]
 
 			st.deck_gl_chart(
