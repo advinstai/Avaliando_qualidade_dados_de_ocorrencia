@@ -11,17 +11,31 @@ exPyBIO: equipe
 import numpy as np
 import pandas as pd
 
-# Abrir Arquivo
 
-#super singleton
+#esta classe utiliza métodos estáticos @staticmethod
+#estes métodos podem ser acessados fora dos objetos, como se fosse uma função solta. É como se apenas estivesse agrupando as funçoes para
+#não ficaram perdidas ao importar para outros arquivos
+
+# exemplo: from Felipe import AvaliaTax
+# meusDados = leiaTudo(arquivo)
+# AnaliaTax.verificaTaxonomia(meusDados)
+# 
+# Não precisa fazer:
+# meuObjeto = AvaliaTax()
+# e depois: meuObjeto.verificaTaxonomia(meusDados)
+# pois neste projeto só vai ter 1 objeto AvaliaTax, não faz sentido eu criar mais de um. 
+# 
+# quando uma classe vira um aglomerado de funções, para projetos pequenos, fica mais fácil de entender. 
+
 class AvaliaTax:
     
     #shared atribute
     defaultFile =  "portalbio_export_16-10-2019-14-39-54.csv"
     
     def __init__(self):
-        print("Nao instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
+        print("Nao precisa instanciar esta classe, pode fazer AvaliaTax.metodo() para utilizar as funções")
     
+    #usar este método apenas para testes internos. Utilizar o método da classe MyData para carregar o arquivo
     @staticmethod
     def carregarCSV(path=None):
       
@@ -118,10 +132,16 @@ class AvaliaTax:
         
         return outlist
         
-        
     
     @staticmethod
     def verificaTaxonomiaAsNumpy(dadosd):
+        
+        '''
+        Entrada: lista das listas de todos os dados, incluindo o cabeçalho, use o Adapter para funcionar com o Pandas
+        Saída: faz o mesmo do verificaTaxonomia(dados), porém retorna uma lista 1D de números no formato do numpy
+        este método é mais resumido devido as funcionalidados do numpy.
+        '''
+        
         try:
             dadosnp = np.array(dadosd[1::]) #converte os dados (e exclui o cabeçalho)
         except TypeError as e:
