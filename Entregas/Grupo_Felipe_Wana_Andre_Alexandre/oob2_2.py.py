@@ -20,7 +20,7 @@ class AvaliaTax:
     defaultFile =  "portalbio_export_16-10-2019-14-39-54.csv"
     
     def __init__(self):
-        raise TypeError("Nao instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
+        print("Nao instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
     
     @staticmethod
     def carregarCSV(path=None):
