@@ -5,7 +5,6 @@ import numpy as np
 import folium
 
 from statistics import mean 
-from functools import reduce
 from opencage.geocoder import OpenCageGeocode
 
 

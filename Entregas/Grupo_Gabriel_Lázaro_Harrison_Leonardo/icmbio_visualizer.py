@@ -1,24 +1,9 @@
-from package import icmbio_search
+from package import icmbio_search as bio
 
 import streamlit as st
 
-import icmbio_search as bio
-
 import pandas as pd
-import numpy as np
-#import folium
-#import math
-
-
-from IPython.display import Markdown, display
-
-
-def special_print(title, content):
-    display(Markdown("### %s:" % title))
-    print(content)
-    return None
-    
-    
+import numpy as np 
 
 
 ####################################################################################
@@ -51,7 +36,6 @@ LOCATION_SAMPLING = st.sidebar.slider("Number of samples to plot", 1, 20, 2)
 # class initializer
 biodiversity = bio.getBiodiversity(url, key, TAXONOMY_COLUMNS, LOCATION_COLUMNS)
 #if st.checkbox("Show raw data (%d rows x %d columns)" % (biodiversity.df_data.shape[0],biodiversity.df_data.shape[1])):
-    #SHOW_COLUMNS = st.multiselect("Please select columns to show", list(biodiversity.df_data.columns), list(biodiversity.df_data.columns))
 #    st.dataframe(biodiversity.df_data)
 
 # missing data analysis
@@ -62,7 +46,6 @@ if st.checkbox("Show missing data statistics (% of data missing)"):
 # run taxonomic analysis
 biodiversity.getTaxonomy(col_name='Nível Taxonômico')
 if st.checkbox("Show taxonomic data (%d rows x %d columns)" % (biodiversity.df_taxonomy.shape[0],biodiversity.df_taxonomy.shape[1])):
-    #SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
     st.dataframe(biodiversity.df_taxonomy)
 
 # filtering data to show
@@ -71,26 +54,20 @@ FILTER_VALUES = [st.sidebar.multiselect("Filter values for column %s"%column, bi
 biodiversity.filterFields(FILTER_FIELDS, FILTER_VALUES)
 biodiversity.getTaxonomy(col_name='Nível Taxonômico')
 if st.checkbox("Show filtered data (%d rows x %d columns)" % (biodiversity.df_filtered.shape[0],biodiversity.df_filtered.shape[1])):
-    #SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
     st.dataframe(biodiversity.df_filtered)
 
 # check if latitude and longitude are correct or not
-biodiversity.checkCoordinates(LOCATION_SAMPLING)
-df_map = biodiversity.df_location_sample[["AdjustedLatitude","AdjustedLongitude"]].copy()
-df_map.columns = ["latitude","longitude"]
-st.write(df_map)
-st.map(df_map)
-
-#st.write(biodiversity.observations_map)
-
-"""
+#biodiversity.checkCoordinates(LOCATION_SAMPLING)
+#biodiversity.df_location_sample = biodiversity.df_location_sample.rename(columns={'AdjustedLatitude': 'lat', 'AdjustedLongitude': 'lon'})
+#if st.checkbox("Show locations sample data (%d rows x %d columns)" % (biodiversity.df_location_sample.shape[0],biodiversity.df_location_sample.shape[1])):
+#    st.dataframe(biodiversity.df_location_sample[["lat", "lon", "Municipio", "ReversedAddress"]])
+#st.map(biodiversity.df_location_sample)
 
 
 
 df = pd.DataFrame(
     np.random.randn(1000, 3) / [50, 50, 100] + [37.76, -122.4, 0],
     columns=['lat', 'lon', 'Confidence'])
-
 
 st.deck_gl_chart(
     viewport={
@@ -107,19 +84,19 @@ st.deck_gl_chart(
         #'elevationScale': 4,
         #'elevationRange': [0, 1000],
         'pickable': True,
-        'extruded': True,
+        #'extruded': True,
         #'onHover' : ,
         #'onClick': ,
         #'opacity': ,
         #'visible': ,
         #'highlightColor': [255, 0, 0, 128],
-        'autoHighlight': True,
+        #'autoHighlight': True,
         #'coordinateSystem': ,
         }, {
         'type': 'ScatterplotLayer',
         'data': df,
     }])
-"""
+
 
 """
 Para usar dentro do parâmetro encoding acima:
