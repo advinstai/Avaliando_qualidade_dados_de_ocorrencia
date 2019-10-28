@@ -4,13 +4,11 @@ import icmbio_search as bio
 
 import pandas as pd
 import numpy as np
-import folium
-import math
+#import folium
+#import math
 
 
-from statistics import mean 
 from IPython.display import Markdown, display
-from opencage.geocoder import OpenCageGeocode
 
 
 def special_print(title, content):
@@ -26,23 +24,24 @@ def special_print(title, content):
 #
 # Initializing all data
 
-#url = "portalbio_export_16-10-2019-14-39-54.csv"
+key = '09aadb1b1d8840acacfa0fcece0acb13'
+
 #url = "PortalBio 00002.csv"
 url = "PortalBio 00043.csv"
 #url = "PortalBio 00555.csv"
 #url = "PortalBio 03912.csv"
 #url = "PortalBio 58411.csv"
+
 TAXONOMY_COLUMNS = ['Filo', 'Classe', 'Ordem', 'Familia', 'Genero', 'Especie']
-LOCATION_COORDINATES = ['Pais', 'Estado/Provincia', 'Municipio', 'Latitude', 'Longitude']
+LOCATION_COLUMNS = ['Pais', 'Estado/Provincia', 'Municipio', 'Latitude', 'Longitude']
 LOCATION_SAMPLING = 2 # number of locations to check
 
 FILTER_FIELDS = ['Municipio','Filo']
 FILTER_VALUES = [['Nova Friburgo','Niquelândia','Vitoria','Natal'],['Mollusca','Magnoliophyta']]
 
-key = '09aadb1b1d8840acacfa0fcece0acb13'
-geocoder = OpenCageGeocode(key)
 
-biodiversity = bio.getBiodiversity(url)
+
+biodiversity = bio.getBiodiversity(url, key, TAXONOMY_COLUMNS, LOCATION_COLUMNS)
 biodiversity.checkEmpty()
 biodiversity.getTaxonomy(col_name='Nível Taxonômico')
 biodiversity.filterFields(FILTER_FIELDS, FILTER_VALUES)
@@ -123,16 +122,16 @@ st.deck_gl_chart(
         'type': 'HexagonLayer', # GridLayer, LineLayer,PointCloudLayer,TextLayer, ScreenGridLayer
         'data': df,
         #'radius': 200,
-        'encoding': {'getRadius': 'Confidence'},
-        'elevationScale': 4,
-        'elevationRange': [0, 1000],
+        #'encoding': {'getRadius': 'Confidence'},
+        #'elevationScale': 4,
+        #'elevationRange': [0, 1000],
         'pickable': True,
         'extruded': True,
         #'onHover' : ,
         #'onClick': ,
         #'opacity': ,
         #'visible': ,
-        'highlightColor': [255, 0, 0, 128],
+        #'highlightColor': [255, 0, 0, 128],
         'autoHighlight': True,
         #'coordinateSystem': ,
         }, {

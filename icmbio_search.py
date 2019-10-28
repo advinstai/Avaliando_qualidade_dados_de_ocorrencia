@@ -2,12 +2,19 @@
 import pandas as pd
 import numpy as np
 
+import folium
+
+from statistics import mean 
+from opencage.geocoder import OpenCageGeocode
 
 
 class getBiodiversity():
 
-    def __init__(self, url):
+    def __init__(self, url, key, taxonomy_columns, location_columns):
         self.url = url
+        self.geocoder = OpenCageGeocode(key)
+        self.TAXONOMY_COLUMNS = taxonomy_columns
+        self.LOCATION_COORDINATES = location_columns
         try:
             self.df_data = pd.read_csv(url, sep=';', header=0, encoding='utf-8')
         except Exception as e:
@@ -30,10 +37,10 @@ class getBiodiversity():
 
     def getLastFilled(self, columns):
         filled_columns = [column for column in columns if (column != "Sem Informações")]
-        return 'NA' if len(filled_columns) == 0 else TAXONOMY_COLUMNS[len(filled_columns)-1]
+        return 'NA' if len(filled_columns) == 0 else self.TAXONOMY_COLUMNS[len(filled_columns)-1]
     
     def addTaxonomicLevel(self, col_name):
-        self.df_data[col_name] = self.df_data[TAXONOMY_COLUMNS].apply(lambda x: self.getLastFilled(x), axis=1)
+        self.df_data[col_name] = self.df_data[self.TAXONOMY_COLUMNS].apply(lambda x: self.getLastFilled(x), axis=1)
         self.df_taxonomy_info =  self.df_data[col_name].value_counts()
         return None
 
@@ -43,7 +50,7 @@ class getBiodiversity():
     
     def getTaxonomy(self, col_name='taxonomic_level'):
         self.addTaxonomicLevel(col_name)
-        self.extractTaxonomy(TAXONOMY_COLUMNS+[col_name])
+        self.extractTaxonomy(self.TAXONOMY_COLUMNS+[col_name])
         return None
     
     def filterFields(self, columns, values):
@@ -75,7 +82,7 @@ class getBiodiversity():
         return unmatched
     
     def reverseGeocode(self, latlon):
-        geo = geocoder.reverse_geocode(latlon[0], latlon[1], no_annotations = '1', pretty = '1', language='pt')
+        geo = self.geocoder.reverse_geocode(latlon[0], latlon[1], no_annotations = '1', pretty = '1', language='pt')
         comp = geo[0]['components']
         info = self.checkGeoInfo(comp, [latlon[2], latlon[3], latlon[4]])
         return pd.Series((geo[0]['formatted'], info))
@@ -110,6 +117,6 @@ class getBiodiversity():
             self.observations_map = None
             return None
         self.df_location_sample = self.df_filtered.sample(n=size).copy()
-        self.df_location_sample[['ReversedAddress','Confidence']] = self.df_location_sample[['AdjustedLatitude','AdjustedLongitude']+LOCATION_COORDINATES].apply(self.reverseGeocode, axis=1)
+        self.df_location_sample[['ReversedAddress','Confidence']] = self.df_location_sample[['AdjustedLatitude','AdjustedLongitude']+self.LOCATION_COORDINATES].apply(self.reverseGeocode, axis=1)
         self.printMap()
         return None
