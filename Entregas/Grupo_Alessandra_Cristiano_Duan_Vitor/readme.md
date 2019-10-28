@@ -6,3 +6,5 @@
 * Vitor
 
 * Issue 1: Cristiano
+*
+* Issue 3: Alessandra
