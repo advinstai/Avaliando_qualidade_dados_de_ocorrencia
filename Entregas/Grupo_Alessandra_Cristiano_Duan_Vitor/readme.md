@@ -2,5 +2,5 @@
 
 * Alessandra
 * Cristiano
-* Duan
+* Duan Cleypaul
 * Vitor

@@ -22,11 +22,11 @@ class AnalisadordeDados:
                 self.nvTax.append(["Nível Taxônomico de {}:".format(i),"Classe"])
             else:
                 self.nvTax.append(["Nível Taxônomico de {} :".format(i),"Filo"])
-        
+	        
         # Usar linhas abaixo para imprimir valores taxonomicos de cada nivel, a titulo de teste
         #for i in self.nvTax[:50]:
         #   print(i)
-        
+        #
         return self.nvTax
 
 # Testando metodos da classe:
