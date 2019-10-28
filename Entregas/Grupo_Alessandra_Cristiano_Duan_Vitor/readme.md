@@ -2,7 +2,7 @@
 
 * Alessandra
 * Cristiano
-* Duan
+* Duan Cleypaul
 * Vitor
 
 * Issue 1: Cristiano

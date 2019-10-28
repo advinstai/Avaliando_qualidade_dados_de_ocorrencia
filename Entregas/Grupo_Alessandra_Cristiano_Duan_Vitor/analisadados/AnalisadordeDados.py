@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from opencage.geocoder import OpenCageGeocode
-from operator import itemgetter 
+from operator import itemgetter
+
 
 class AnalisadordeDados:
 
@@ -118,17 +119,49 @@ class AnalisadordeDados:
     def missingData(self):
         count = {}
         df = pd.read_csv(self.__path, sep='\n', delimiter=';')
-        #Realiza a contagem somente de valores em branco ou "Sem Informacoes"
+        # Realiza a contagem somente de valores em branco ou "Sem Informacoes"
         for field in list(df):
             count[field] = round((100*sum(
                 [1 if value == "" or value == "Sem Informações" else 0 for value in df[field]]) / len(df)), 1)
-        #Ordena o dictionary em função da ocorrência dos values.
-        for key, value in sorted(count.items(), key = itemgetter(1), reverse = True):
-        #Imprime somente a lista que contém dados faltantes
+        # Ordena o dictionary em função da ocorrência dos values.
+        for key, value in sorted(count.items(), key=itemgetter(1), reverse=True):
+            # Imprime somente a lista que contém dados faltantes
             if value != 0:
-                print(key,":", value, "%")
+                print(key, ":", value, "%")
+
+    def nivelTax(self):
+        with open(self.__path, 'r') as file:
+            arquivo = list(file)
+            print("\n------Nível Taxonômico-----")
+            # aloca a taxonomia a ser lida na iteracao
+            self.temp = [linha.strip("\n").split(';') for linha in arquivo]
+            self.nvTax = []
+            # aloca o nivel taxonomico de cada item no formato:
+            # [['Nivel Taxonomico de 1:','Especie'],['Nivel Taxonomico de 2:','Genero'],...]
+            for i in range(len(arquivo[1:])):
+                if self.temp[i][21].lower() != "Sem Informações".lower() and self.temp[i][21] != "":
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {}:".format(i), "Espécie"])
+                elif self.temp[i][20].lower() != "Sem Informações".lower() and self.temp[i][20] != "":
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {}:".format(i), "Gênero"])
+                elif self.temp[i][19].lower() != "Sem Informações".lower() and self.temp[i][19] != "":
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {}:".format(i), "Família"])
+                elif self.temp[i][18].lower() != "Sem Informações".lower() and self.temp[i][18] != "":
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {}:".format(i), "Ordem"])
+                elif self.temp[i][17].lower() != "Sem Informações".lower() and self.temp[i][17] != "":
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {}:".format(i), "Classe"])
+                else:
+                    self.nvTax.append(
+                        ["Nível Taxônomico de {} :".format(i), "Filo"])
+
+        return self.nvTax
 
 # a = AnalisadordeDados('/home/vitorbezerra/Documents/python/Exercicios/portalbio_export_16-10-2019-14-39-54.csv', ';')
+# print(a.nivelTax())
 # a.missingData()
 # a.filter(["Municipio"], ["Londrina"])
 # print(a.call())
