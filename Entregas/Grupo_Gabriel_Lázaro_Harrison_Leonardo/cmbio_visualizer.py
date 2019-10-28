@@ -1,3 +1,5 @@
+from package import icmbio_search
+
 import streamlit as st
 
 import icmbio_search as bio

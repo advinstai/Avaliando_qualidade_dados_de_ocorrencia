@@ -8,12 +8,13 @@ author='equipe3',
 author_email='equipe3hubfiep@gmail.com',
 license='N/D',
 packages=['package'],
+package_dir={'package'},
 install_requires=[
           'pandas',
           'numpy',
           'streamlit',
           'folium',
           'statistics',
-          'opencage.geocoder',       
+          'opencage.geocoder'       
       ],
 zip_safe=False)
