@@ -8,6 +8,8 @@ sys.path.append('libs')
 #from loni import *
 from felipe import *
 #teste()
+print('leticia d+')
+
 
 class app_hub():
 
