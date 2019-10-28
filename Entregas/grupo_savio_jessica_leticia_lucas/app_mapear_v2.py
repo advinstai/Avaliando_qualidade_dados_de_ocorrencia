@@ -6,9 +6,9 @@ import numpy as np
 import streamlit as st
 
 sys.path.append('libs')
-from felipe import *
+from felipe import verificaTaxonomia
 
-#teste()
+#teste()asdasd
 print('leticia d+')
 
 class app_hub():
@@ -22,6 +22,11 @@ class app_hub():
 	def __init__(self):
 		file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf8')
 		self.linhas = file.readlines()
+
+	def carregar(self, path):
+		df = pd.read_csv(path)
+		lista = df.values.tolist()
+		return df, lista
 
 	#Metodo para construir a matriz
 	def construir(self, lines):
@@ -41,24 +46,8 @@ class app_hub():
 	def media_nulls(self, lista):
 
 	#Map aplicando a função lambda em cada item da lista
-		return map(lambda item: item /len(self.lista_completa), lista)
+		return map(lambda item: item /len(lista), lista)
 
-	#Metodo para checar nível taxonom...
-	def taxonom(self):
-		count=0
-
-		#Procura pela posição da palavra filo nas colunas:
-		for i in range(0, len(self.lista_completa[0:][0])):
-			if self.lista_completa[0][i] == 'Filo':
-				count = i
-				break
-
-		#List comprehension pra criar uma lista com os valores taxon..: 0 a 6
-		def testar(teste):
-			return False if teste == "Sem Informações" or teste == " " else True
-		novas_colunas = [sum([testar(self.lista_completa[linha][coluna]) for coluna in range(count, count+6)]) for linha in range(len(self.lista_completa))]
-		novas_colunas.insert(0,'Taxonom')
-		return novas_colunas
 
 class app_grafica(app_hub):
 
@@ -81,7 +70,9 @@ class app_grafica(app_hub):
 
 	def inicializar(self, app = app_hub()):
 
+		path = st.sidebar.text_input('Digite o caminho: ', 'Arquivos/portalbio_export_17-10-2019-13-06-22.csv')
 		opcoes = ['Quantidade de valores nao preenchidos', 'Porcetagem de dados faltantes por coluna']
+		dados, lista = app.carregar(path)
 
 		#Exercicio 01 valores vazios
 		if self.option == app.dicionario[0]:
@@ -89,12 +80,16 @@ class app_grafica(app_hub):
 			st.write('Para cada coluna identique a quantidade de linhas com dados faltantes (em alguns casos, o dado faltante é uma string vazia, em outros casos é uma string contendo algum valor do tipo: "sem informação"). Faça um método que retorna a média de dados faltantes por coluna')
 			if self.option_01 == opcoes[0]:
 				st.markdown('### Valores vazios ou faltantes: ')
-				st.bar_chart(app.count_nulls(app.construir(app.linhas)))
+				st.bar_chart(app.count_nulls(lista))
+				#st.bar_chart(dados)
 				if st.checkbox('Mostrar lista de dados faltantes'):
-					st.write(app.count_nulls(app.construir(app.linhas)))
+					#st.write(app.count_nulls(app.construir(app.linhas)))
+					st.write(app.count_nulls(lista))
+
 			if self.option_01 == opcoes[1]:
 				st.markdown('### Porcetagem de valores faltantes por coluna: ')
-				st.bar_chart(app.media_nulls(app.count_nulls(app.construir(app.linhas))))
+				#st.bar_chart(app.media_nulls(app.count_nulls(app.construir(app.linhas))))
+				st.bar_chart(app.media_nulls(app.count_nulls(lista)))
 				if st.checkbox('Mostrar lista de porcetagem'):
 					st.write(list(app.media_nulls(app.count_nulls(app.construir(app.linhas)))))
 
