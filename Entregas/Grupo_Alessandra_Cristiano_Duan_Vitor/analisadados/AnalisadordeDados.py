@@ -1,4 +1,4 @@
-import numpy as __np
+import numpy as np
 import pandas as pd
 from opencage.geocoder import OpenCageGeocode
 
@@ -10,7 +10,6 @@ class AnalisadordeDados:
             self.__txt = arq.readlines()
         self.__sep = sep
         self.__path = path
-        self.__txt = []
 
     def __structlist(self):
         lst = [[a.replace("\n", "") for a in y.split(self.__sep)]
@@ -35,7 +34,7 @@ class AnalisadordeDados:
 
     def filter(self, category, search, stype="or", outputfile='resultado_busca.csv'):
         # Filtra as ocorrencias segundo as caracteristicas indicadas.
-
+        # Exemplo de uso AnalisadordeDados.filter(["Municipio"], ["Londrina"])
         # Parametros:
         # **category** - característica a ser avaliada; search - parametros de filtro das informações; **stype**: tipo de
         # busca, "and" (retorna itens que possuam todas os parametros informados) e "or" (retorna itens que possuam
@@ -69,7 +68,7 @@ class AnalisadordeDados:
 
             # Avalia as correspondencia em uma mesma ocorrencia: 0 para sem correspondencia, 1 para correspondencia do tipo "ou" e
             # n para correspondencia do tipo "e"
-            evaluate = list(self.__np.sum(temp, axis=0))
+            evaluate = list(np.sum(temp, axis=0))
 
             # Seleciona o tipo de filtro
             if stype == "and":
@@ -109,9 +108,13 @@ class AnalisadordeDados:
         return r_city == city
 
     def call(self):
-        df = pd.read_csv(self.__path)
+        df = pd.read_csv(self.__path, sep='\n', delimiter=';')
         df_sample = df.sample(n=10, random_state=1)
         count = {}
         for i, (lat, long, city) in enumerate(zip(df_sample['Latitude'], df_sample['Longitude'], df_sample['Municipio'])):
             count[i] = self.verify_lat_long(city, lat, long)
         return count
+
+# a = AnalisadordeDados('/home/vitorbezerra/Documents/python/Exercicios/portalbio_export_16-10-2019-14-39-54.csv', ';')
+# a.filter(["Municipio"], ["Londrina"])
+# print(a.call())
