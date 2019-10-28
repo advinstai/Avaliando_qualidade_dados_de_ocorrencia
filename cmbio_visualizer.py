@@ -19,50 +19,72 @@ def special_print(title, content):
     
 
 
-
 ####################################################################################
 #
 # Initializing all data
-
-key = '09aadb1b1d8840acacfa0fcece0acb13'
-
-#url = "PortalBio 00002.csv"
-url = "PortalBio 00043.csv"
-#url = "PortalBio 00555.csv"
-#url = "PortalBio 03912.csv"
-#url = "PortalBio 58411.csv"
-
-TAXONOMY_COLUMNS = ['Filo', 'Classe', 'Ordem', 'Familia', 'Genero', 'Especie']
-LOCATION_COLUMNS = ['Pais', 'Estado/Provincia', 'Municipio', 'Latitude', 'Longitude']
-LOCATION_SAMPLING = 2 # number of locations to check
 
 FILTER_FIELDS = ['Municipio','Filo']
 FILTER_VALUES = [['Nova Friburgo','Niquelândia','Vitoria','Natal'],['Mollusca','Magnoliophyta']]
 
 
-
-biodiversity = bio.getBiodiversity(url, key, TAXONOMY_COLUMNS, LOCATION_COLUMNS)
-biodiversity.checkEmpty()
-biodiversity.getTaxonomy(col_name='Nível Taxonômico')
-biodiversity.filterFields(FILTER_FIELDS, FILTER_VALUES)
-biodiversity.checkCoordinates(LOCATION_SAMPLING)
-
-
-
-
-st.header("CMBio Visualizer")
-
-
-biodiversity.url
-
-
 ####################################################################################
 #
-# Show sample of each output - raw data load
+# Initializing STREAMLIT APP
 
-special_print("File URL", biodiversity.url)
-special_print("Raw file info", biodiversity.data_info)
-special_print("Raw file sample", biodiversity.df_data.head(1).T)
+
+st.title("ICMBio Visualizer")
+st.sidebar.header("Settings")
+
+key = '09aadb1b1d8840acacfa0fcece0acb13'
+key = st.sidebar.text_input("Product key", key)
+
+FILES = ["PortalBio 00002.csv",
+        "PortalBio 00043.csv",
+        "PortalBio 00555.csv",
+        "PortalBio 03912.csv",
+        "PortalBio 58411.csv"]
+url = st.sidebar.selectbox("Select a file", FILES)
+st.write("Reading file %s" % url)
+
+TAXONOMY_COLUMNS = ['Filo', 'Classe', 'Ordem', 'Familia', 'Genero', 'Especie']
+TAXONOMY_COLUMNS = st.sidebar.multiselect("Taxonomy columns to analyse", TAXONOMY_COLUMNS, TAXONOMY_COLUMNS)
+
+LOCATION_COLUMNS = ['Pais', 'Estado/Provincia', 'Municipio', 'Latitude', 'Longitude']
+LOCATION_COLUMNS = st.sidebar.multiselect("Location columns to analyse", LOCATION_COLUMNS, LOCATION_COLUMNS)
+
+LOCATION_SAMPLING = st.sidebar.slider("Number of samples to plot", 1, 20, 2)
+
+# class initializer
+biodiversity = bio.getBiodiversity(url, key, TAXONOMY_COLUMNS, LOCATION_COLUMNS)
+if st.checkbox("Show raw data (%d rows x %d columns)" % (biodiversity.df_data.shape[0],biodiversity.df_data.shape[1])):
+    SHOW_COLUMNS = st.multiselect("Please select columns to show", list(biodiversity.df_data.columns), list(biodiversity.df_data.columns))
+    st.dataframe(biodiversity.df_data[SHOW_COLUMNS])
+
+# missing data analysis
+biodiversity.checkEmpty()
+if st.checkbox("Show missing data statistics (% of data missing)"):
+    st.dataframe(biodiversity.df_dataNAN)
+
+# run taxonomic analysis
+biodiversity.getTaxonomy(col_name='Nível Taxonômico')
+if st.checkbox("Show taxonomic data (%d rows x %d columns)" % (biodiversity.df_taxonomy.shape[0],biodiversity.df_taxonomy.shape[1])):
+    SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
+    st.dataframe(biodiversity.df_taxonomy[SHOW_COLUMNS_TAXONOMY])
+
+st.header("teste")
+
+
+
+biodiversity.filterFields(FILTER_FIELDS, FILTER_VALUES)
+#biodiversity.checkCoordinates(LOCATION_SAMPLING)
+
+
+
+
+
+
+
+
 special_print("Dataframe columns", biodiversity.df_columns)
 
 ####################################################################################
@@ -70,7 +92,6 @@ special_print("Dataframe columns", biodiversity.df_columns)
 # Show sample of each output - data missing analysis
 
 special_print("Data missing sample (1 = missing)", biodiversity.df_dataNAN.head(5).T)
-special_print("Data missing statistics (%)", biodiversity.df_data_missing)
 
 ####################################################################################
 #
@@ -94,7 +115,7 @@ special_print("Filtered data sample", biodiversity.df_filtered.head(1).T)
 special_print("Applied filters", FILTER_FIELDS)
 special_print("Applied filter values", FILTER_VALUES)
 
-special_print("Sample of locations to check", biodiversity.df_location_sample.head(1).T)
+#special_print("Sample of locations to check", biodiversity.df_location_sample.head(1).T)
 
 ####################################################################################
 #
@@ -102,7 +123,7 @@ special_print("Sample of locations to check", biodiversity.df_location_sample.he
 
 display(Markdown("### Observations (click to see more details)"))
 
-st.write(biodiversity.observations_map)
+#st.write(biodiversity.observations_map)
 
 
 

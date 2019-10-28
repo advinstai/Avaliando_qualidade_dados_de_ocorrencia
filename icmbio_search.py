@@ -21,7 +21,6 @@ class getBiodiversity():
             self.df_data = pd.DataFrame()
             print("Aborting... couldn't read this file: %s" % url)
             print (e.args)
-        self.data_info = "File shape: %d rows x %d columns"% (self.df_data.shape[0], self.df_data.shape[1])
         return None
     
     def getColumns(self):
@@ -32,7 +31,7 @@ class getBiodiversity():
         self.getColumns()
         self.df_dataNAN = pd.DataFrame(np.where((self.df_data == '') | (self.df_data == 'Sem Informações'), 1, 0))
         self.df_dataNAN.columns = self.df_columns
-        self.df_data_missing = 100*self.df_dataNAN.mean()
+        self.df_dataNAN = 100*self.df_dataNAN.mean()
         return None
 
     def getLastFilled(self, columns):
