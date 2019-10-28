@@ -16,7 +16,9 @@ import numpy as np
 class AvaliaTax:
     
     def __init__(self):
-        raise TypeError("Nao instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
+        print("Nao precisa instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
+        pass
+    
     
     @staticmethod
     def carregarCSV(path=None):
@@ -45,7 +47,7 @@ class AvaliaTax:
             dadosXY = map(lambda l: l.split(";"), base)
             
         except AttributeError as e:
-            print "Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args
+            print ("Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args )
         
         return dadosXY
     
