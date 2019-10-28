@@ -9,22 +9,24 @@ exPyBIO: equipe
 """
 
 import numpy as np
+import pandas as pd
 
 # Abrir Arquivo
 
 #super singleton
 class AvaliaTax:
     
-    def __init__(self):
-        print("Nao precisa instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
-        pass
+    #shared atribute
+    defaultFile =  "portalbio_export_16-10-2019-14-39-54.csv"
     
+    def __init__(self):
+        raise TypeError("Nao instanciar esta classe, fazer AvaliaTax.metodo() para utilizar as funções")
     
     @staticmethod
     def carregarCSV(path=None):
       
         # caso não tenha parâmetro: pegar do arquivo padrão:
-        caminho = path if path else "portalbio_export_16-10-2019-14-39-54.csv"
+        caminho = path if path else AvaliaTax.defaultFile
         
         arquivo = None
         
@@ -47,7 +49,7 @@ class AvaliaTax:
             dadosXY = map(lambda l: l.split(";"), base)
             
         except AttributeError as e:
-            print ("Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args )
+            print "Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args
         
         return dadosXY
     
@@ -107,6 +109,18 @@ class AvaliaTax:
     def listaMetodos(): return dir(AvaliaTax)
     
     @staticmethod
+    def pandasAdapter(pandaDataframe):
+        out = pandaDataframe.to_numpy()
+        
+        outlist =  np.array(out, dtype=str).tolist()
+        
+        outlist.insert(0, list(pandaDataframe))
+        
+        return outlist
+        
+        
+    
+    @staticmethod
     def verificaTaxonomiaAsNumpy(dadosd):
         try:
             dadosnp = np.array(dadosd[1::]) #converte os dados (e exclui o cabeçalho)
@@ -120,6 +134,7 @@ class AvaliaTax:
             colunaFilo = dadosd[0].index('Filo')
         except ValueError:
             print("falha ao procurar as colunas do nível taxonomico, verifique se está no formato 'filo'")
+            return -1
         
         
         #aqui acontece o procedimento (ver detalhes na documentação)
