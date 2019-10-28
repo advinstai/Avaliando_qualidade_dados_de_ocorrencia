@@ -8,6 +8,8 @@ import streamlit as st
 sys.path.append('libs')
 from felipe import *
 
+#teste()
+print('leticia d+')
 
 class app_hub():
 
