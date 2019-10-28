@@ -1,15 +1,15 @@
 #Importando bibliotecas
+#lucas teste
 import sys
 import pandas as pd
 import numpy as np
 import streamlit as st
 
 sys.path.append('libs')
-#from loni import *
 from felipe import *
+
 #teste()
 print('leticia d+')
-
 
 class app_hub():
 
@@ -138,6 +138,8 @@ class app_grafica(app_hub):
 
 		#Exercicio 04 - Geocode - Verificar se dados batem
 		if self.option == app.dicionario[3]:
-			st.image('Arquivos/Erro.jpg')
+			st.image('Arquivos/Erro.jpg') 	
+
+
 hub_ia = app_grafica()
 hub_ia.inicializar()
