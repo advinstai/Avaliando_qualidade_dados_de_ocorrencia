@@ -9,6 +9,8 @@ sys.path.append('libs')
 from felipe import *
 #teste()
 
+print('leticia')
+
 class app_hub():
 
 	#Atributos da classe app_hub:
