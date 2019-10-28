@@ -72,9 +72,9 @@ class app_grafica(app_hub):
 
 		if st.sidebar.checkbox('Integrantes'):
 			st.sidebar.markdown('#### @Savio')
-			st.sidebar.markdown('#### @Felipe')
+			st.sidebar.markdown('#### @Leticia')
 			st.sidebar.markdown('#### @Lucas')
-			st.sidebar.markdown('#### @Rafael')
+			st.sidebar.markdown('#### @Jessica')
 			st.sidebar.markdown(' ')
 
 	def inicializar(self, app = app_hub()):
