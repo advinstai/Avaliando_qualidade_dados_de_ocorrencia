@@ -4,14 +4,19 @@
 ## Projeto de Avaliação de qualidade de dados de biodiversidade
 
 **1.** Identificar a quantidade de linhas com dados faltantes.
+-> Leticia
 
 **2.** Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.
+-> Lucas
 
 **3.** Monte filtros de ocorrências por estados, nome de espécie (nome exato ou parte do nome) e categoria de ameaça.
+-> Savio
 
 **4.** Crie uma funcionalidade para avaliar se a informação de longitude e latitude corresponde a informação presente na localização.
+-> Jessica
 
 **5.** Teste da classe desenvolvida com os 3 arquivos passados.
+-> Leticia//Savio
 
 **6.** Documentação da solução
 
