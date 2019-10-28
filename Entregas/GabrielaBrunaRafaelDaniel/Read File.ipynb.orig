@@ -7,13 +7,9 @@
    "outputs": [],
    "source": [
 <<<<<<< HEAD
-=======
     "print(\"Hello word - bruna\")  \n",
     "\n",
     "\n",
-    "\n",
-    "        \n",
->>>>>>> origin/bruna
     "class CSVFile():\n",
     "    def _init__(self):\n",
     "        self.arquivo = None\n",
@@ -41,8 +37,42 @@
     "cfile.read_file(filePath)\n",
     "print(cfile.data)\n",
     "\"\"\"\n",
+=======
+    "class desafioBiodiversidade():\n",
     "\n",
-    "print(\"Hello World - Daniel\")"
+    "    \n",
+    "    #1\n",
+    "    #Para cada coluna identique a quantidade de linhas com dados faltantes (em alguns casos, \n",
+    "    #o dado faltante é uma string vazia, em outros casos é uma string contendo algum valor do \n",
+    "    #tipo: \"sem informação\"). \n",
+    "    #Faça um método que retorna a média de dados faltantes por coluna\n",
+    "    def retornaMediaDadosFaltantesPorColuna():\n",
+    "        \n",
+    "    \n",
+    "    #2\n",
+    "    #Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.\n",
+    "    #Seis campos definem a espécie: Filo;Classe;Ordem;Familia;Genero;Especie do mais genérico \n",
+    "    #(Filo) para o mais específico (Especie), é comum que em alguns casos, o preenchimento pare em \n",
+    "    #família ou genêro por exemplo.\n",
+    "    def retornaNivelTaxonomicoCadaOcorrencia():\n",
+    "    \n",
+    "    \n",
+    "    #3\n",
+    "    #Monte filtros de ocorrências por estados, nome de espécie (nome exato ou parte do nome) e \n",
+    "    #categoria de ameaça, e outros filtros que julgar relevante.\n",
+    "    def retonaSeOcorrenciaExiste():\n",
+    "        \n",
+    "        \n",
+    "    #4\n",
+    "    #Crie uma funcionalidade para avaliar se a informação de longitude e latitude \n",
+    "    #corresponde a informação presente na localização, para isso você pode utilizar uma \n",
+    "    #biblioteca de consulta reversa de lat/log como por exemplo o \n",
+    "    #https://opencagedata.com/tutorials/geocode-in-python\n",
+    "    def metodoPlotMap():\n",
+    "        \n",
+>>>>>>> daniel
+    "\n",
+    "biodiversidade = desafioBiodiversidade()"
    ]
   }
  ],
@@ -62,11 +92,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-<<<<<<< HEAD
    "version": "3.6.8"
-=======
-   "version": "3.7.3"
->>>>>>> origin/bruna
   }
  },
  "nbformat": 4,
