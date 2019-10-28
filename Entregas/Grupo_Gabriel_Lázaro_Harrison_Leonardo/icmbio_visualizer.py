@@ -21,14 +21,6 @@ def special_print(title, content):
 
 ####################################################################################
 #
-# Initializing all data
-
-FILTER_FIELDS = ['Municipio','Filo']
-FILTER_VALUES = [['Nova Friburgo','Niquelândia','Vitoria','Natal'],['Mollusca','Magnoliophyta']]
-
-
-####################################################################################
-#
 # Initializing STREAMLIT APP
 
 
@@ -43,7 +35,7 @@ FILES = ["PortalBio 00002.csv",
         "PortalBio 00555.csv",
         "PortalBio 03912.csv",
         "PortalBio 58411.csv"]
-url = st.sidebar.selectbox("Select a file", FILES)
+url = "Arquivos_csv/" + st.sidebar.selectbox("Select a file", FILES)
 st.write("Reading file %s" % url)
 
 TAXONOMY_COLUMNS = ['Filo', 'Classe', 'Ordem', 'Familia', 'Genero', 'Especie']
@@ -56,9 +48,9 @@ LOCATION_SAMPLING = st.sidebar.slider("Number of samples to plot", 1, 20, 2)
 
 # class initializer
 biodiversity = bio.getBiodiversity(url, key, TAXONOMY_COLUMNS, LOCATION_COLUMNS)
-if st.checkbox("Show raw data (%d rows x %d columns)" % (biodiversity.df_data.shape[0],biodiversity.df_data.shape[1])):
-    SHOW_COLUMNS = st.multiselect("Please select columns to show", list(biodiversity.df_data.columns), list(biodiversity.df_data.columns))
-    st.dataframe(biodiversity.df_data[SHOW_COLUMNS])
+#if st.checkbox("Show raw data (%d rows x %d columns)" % (biodiversity.df_data.shape[0],biodiversity.df_data.shape[1])):
+    #SHOW_COLUMNS = st.multiselect("Please select columns to show", list(biodiversity.df_data.columns), list(biodiversity.df_data.columns))
+#    st.dataframe(biodiversity.df_data)
 
 # missing data analysis
 biodiversity.checkEmpty()
@@ -68,62 +60,28 @@ if st.checkbox("Show missing data statistics (% of data missing)"):
 # run taxonomic analysis
 biodiversity.getTaxonomy(col_name='Nível Taxonômico')
 if st.checkbox("Show taxonomic data (%d rows x %d columns)" % (biodiversity.df_taxonomy.shape[0],biodiversity.df_taxonomy.shape[1])):
-    SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
-    st.dataframe(biodiversity.df_taxonomy[SHOW_COLUMNS_TAXONOMY])
+    #SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
+    st.dataframe(biodiversity.df_taxonomy)
 
-st.header("teste")
-
-
-
+# filtering data to show
+FILTER_FIELDS = st.sidebar.multiselect("Please select one or more columns to filter by", list(biodiversity.df_data.columns))
+FILTER_VALUES = [st.sidebar.multiselect("Filter values for column %s"%column, biodiversity.df_data[column].unique()) for column in FILTER_FIELDS]
 biodiversity.filterFields(FILTER_FIELDS, FILTER_VALUES)
-#biodiversity.checkCoordinates(LOCATION_SAMPLING)
+biodiversity.getTaxonomy(col_name='Nível Taxonômico')
+if st.checkbox("Show filtered data (%d rows x %d columns)" % (biodiversity.df_filtered.shape[0],biodiversity.df_filtered.shape[1])):
+    #SHOW_COLUMNS_TAXONOMY = st.multiselect("Please select columns to show", list(biodiversity.df_taxonomy.columns), list(biodiversity.df_taxonomy.columns))
+    st.dataframe(biodiversity.df_filtered)
 
-
-
-
-
-
-
-
-special_print("Dataframe columns", biodiversity.df_columns)
-
-####################################################################################
-#
-# Show sample of each output - data missing analysis
-
-special_print("Data missing sample (1 = missing)", biodiversity.df_dataNAN.head(5).T)
-
-####################################################################################
-#
-# Show sample of each output - show taxonomic info
-
-special_print("Raw data sample after taxonomic level inclusion", biodiversity.df_data.head(1).T)
-special_print("Taxonomic info", biodiversity.df_taxonomy_info)
-special_print("Taxonomy sample", biodiversity.df_taxonomy.head(3).T)
-
-####################################################################################
-#
-# Show sample of each output - filtered data
-
-special_print("Filtered data info", biodiversity.filtered_info)
-special_print("Filtered data sample", biodiversity.df_filtered.head(1).T)
-
-####################################################################################
-#
-# Show sample of each output - show location info
-
-special_print("Applied filters", FILTER_FIELDS)
-special_print("Applied filter values", FILTER_VALUES)
-
-#special_print("Sample of locations to check", biodiversity.df_location_sample.head(1).T)
-
-####################################################################################
-#
-# Show sample of each output - show map with reported observations
-
-display(Markdown("### Observations (click to see more details)"))
+# check if latitude and longitude are correct or not
+biodiversity.checkCoordinates(LOCATION_SAMPLING)
+df_map = biodiversity.df_location_sample[["AdjustedLatitude","AdjustedLongitude"]].copy()
+df_map.columns = ["latitude","longitude"]
+st.write(df_map)
+st.map(df_map)
 
 #st.write(biodiversity.observations_map)
+
+"""
 
 
 
@@ -159,7 +117,7 @@ st.deck_gl_chart(
         'type': 'ScatterplotLayer',
         'data': df,
     }])
-
+"""
 
 """
 Para usar dentro do parâmetro encoding acima:

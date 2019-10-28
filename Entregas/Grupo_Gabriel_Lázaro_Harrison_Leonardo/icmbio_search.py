@@ -5,6 +5,7 @@ import numpy as np
 import folium
 
 from statistics import mean 
+from functools import reduce
 from opencage.geocoder import OpenCageGeocode
 
 
@@ -53,9 +54,12 @@ class getBiodiversity():
         return None
     
     def filterFields(self, columns, values):
-        filter = np.logical_and.reduce([self.df_data[columns[i]].isin(values[i]) for i in range(len(columns))])
-        self.df_filtered = self.df_data[filter].copy()
-        self.filtered_info = "File shape: %d rows x %d columns"% (self.df_filtered.shape[0], self.df_filtered.shape[1])
+        #filter = np.logical_and.reduce([self.df_data[columns[i]].isin(values[i]) for i in range(len(columns))])
+        filter = np.sum([self.df_data[columns[i]].isin(values[i])+(len(values[i])==0) for i in range(len(columns))], axis=0) == len(columns)
+        if columns: 
+            self.df_filtered = self.df_data[filter].copy()
+        else:
+            self.df_filtered = self.df_data.copy()
         return None
     
     def parseFloat(self, info):
