@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from opencage.geocoder import OpenCageGeocode
-
+from operator import itemgetter 
 
 class AnalisadordeDados:
 
@@ -115,6 +115,20 @@ class AnalisadordeDados:
             count[i] = self.verify_lat_long(city, lat, long)
         return count
 
+    def missingData(self):
+        count = {}
+        df = pd.read_csv(self.__path, sep='\n', delimiter=';')
+        #Realiza a contagem somente de valores em branco ou "Sem Informacoes"
+        for field in list(df):
+            count[field] = round((100*sum(
+                [1 if value == "" or value == "Sem Informações" else 0 for value in df[field]]) / len(df)), 1)
+        #Ordena o dictionary em função da ocorrência dos values.
+        for key, value in sorted(count.items(), key = itemgetter(1), reverse = True):
+        #Imprime somente a lista que contém dados faltantes
+            if value != 0:
+                print(key,":", value, "%")
+
 # a = AnalisadordeDados('/home/vitorbezerra/Documents/python/Exercicios/portalbio_export_16-10-2019-14-39-54.csv', ';')
+# a.missingData()
 # a.filter(["Municipio"], ["Londrina"])
 # print(a.call())
