@@ -19,6 +19,8 @@ https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/projects/1
 - Item 2 Adicionado. Opera com Numpy
   - Por padrão os dados de entradas são listas com str()
   - Tem adaptador de Pandas para List()
+- Item 3 Adicionado. Opera com Pandas
+  - Suporta _True Color_ no console 
 
 Adicionado o diagrama de classes, ainda está fora da norma... A class AvaliaTax tem seus métodos estáticos (podem ser chamados sem instanciar)
 
