@@ -4,6 +4,7 @@ import streamlit as st
 
 import pandas as pd
 import numpy as np 
+import math
 
 
 ####################################################################################
@@ -57,64 +58,62 @@ if st.checkbox("Show filtered data (%d rows x %d columns)" % (biodiversity.df_fi
     st.dataframe(biodiversity.df_filtered)
 
 # check if latitude and longitude are correct or not
-#biodiversity.checkCoordinates(LOCATION_SAMPLING)
-#biodiversity.df_location_sample = biodiversity.df_location_sample.rename(columns={'AdjustedLatitude': 'lat', 'AdjustedLongitude': 'lon'})
-#if st.checkbox("Show locations sample data (%d rows x %d columns)" % (biodiversity.df_location_sample.shape[0],biodiversity.df_location_sample.shape[1])):
-#    st.dataframe(biodiversity.df_location_sample[["lat", "lon", "Municipio", "ReversedAddress"]])
-#st.map(biodiversity.df_location_sample)
+biodiversity.checkCoordinates(LOCATION_SAMPLING)
+biodiversity.df_location_sample = biodiversity.df_location_sample.rename(columns={'AdjustedLatitude': 'lat', 'AdjustedLongitude': 'lon'})
+if st.checkbox("Show locations sample data (%d rows x %d columns)" % (biodiversity.df_location_sample.shape[0],biodiversity.df_location_sample.shape[1])):
+    st.dataframe(biodiversity.df_location_sample[["lat", "lon", "Municipio", "ReversedAddress"]])
 
-
-
-df = pd.DataFrame(
-    np.random.randn(1000, 3) / [50, 50, 100] + [37.76, -122.4, 0],
-    columns=['lat', 'lon', 'Confidence'])
-
+# show map with sampled observations
+try:
+    rangelat = math.log2(170 / (biodiversity.df_location_sample['lat'].max()-biodiversity.df_location_sample['lat'].min()))
+    rangelon = math.log2(360 / (biodiversity.df_location_sample['lon'].max()-biodiversity.df_location_sample['lon'].min()))
+    zoom = int(min(rangelat, rangelon)) + 1
+except:
+    zoom = 10
 st.deck_gl_chart(
     viewport={
-        'latitude': 37.76,
-        'longitude': -122.4,
-        'zoom': 11,
-        'pitch': 50,
+        'latitude': biodiversity.df_location_sample['lat'].mean(),
+        'longitude': biodiversity.df_location_sample['lon'].mean(),
+        'zoom': zoom,
+        'pitch': 0,
+        'bearing': 0,
     },
-    layers=[{
-        'type': 'HexagonLayer', # GridLayer, LineLayer,PointCloudLayer,TextLayer, ScreenGridLayer
-        'data': df,
-        #'radius': 200,
-        #'encoding': {'getRadius': 'Confidence'},
-        #'elevationScale': 4,
-        #'elevationRange': [0, 1000],
+    layers=[
+        {
+        'type': 'ScatterplotLayer', #'HexagonLayer', GridLayer, LineLayer, PointCloudLayer, TextLayer, ScreenGridLayer
+        'data': biodiversity.df_location_sample[biodiversity.df_location_sample['Confidence']<=1],
+        'getRadius': 1000, #'Radius', # inform a column name with values [0-100]
+        'getColor': [0, 120, 0], 
+        #'getColor': 'Color',
+        'getLineColor': [220, 220, 220],
+        'opacity': 1.0,
         'pickable': True,
-        #'extruded': True,
-        #'onHover' : ,
-        #'onClick': ,
-        #'opacity': ,
-        #'visible': ,
-        #'highlightColor': [255, 0, 0, 128],
-        #'autoHighlight': True,
-        #'coordinateSystem': ,
-        }, {
-        'type': 'ScatterplotLayer',
-        'data': df,
-    }])
+        'autoHighlight': True,
+        'stroked': True,
+        'filled': True,
+        'radiusScale': 1,
+        'radiusMinPixels': 10, 
+        'radiusMaxPixels': 100,
+        'lineWidthMinPixels': 2,
+        #'onHover': 'find documentation on how to implement this
+        },
+        {
+        'type': 'ScatterplotLayer', #'HexagonLayer', GridLayer, LineLayer, PointCloudLayer, TextLayer, ScreenGridLayer
+        'data': biodiversity.df_location_sample[biodiversity.df_location_sample['Confidence']>1],
+        'getRadius': 1000, #'Radius', # inform a column name with values [0-100]
+        'getColor': [120, 0, 0], 
+        #'getColor': 'Color',
+        'getLineColor': [220, 220, 220],
+        'opacity': 1.0,
+        'pickable': True,
+        'autoHighlight': True,
+        'stroked': True,
+        'filled': True,
+        'radiusScale': 1,
+        'radiusMinPixels': 10,
+        'radiusMaxPixels': 100,
+        'lineWidthMinPixels': 2,
+        #'onHover': 'find documentation on how to implement this
+        }
+        ])
 
-
-"""
-Para usar dentro do parâmetro encoding acima:
-
-Instead of “getPosition” : use “getLatitude” and “getLongitude”.
-Instead of “getSourcePosition” : use “getLatitude” and “getLongitude”.
-Instead of “getTargetPosition” : use “getTargetLatitude” and “getTargetLongitude”.
-Instead of “getColor” : use “getColorR”, “getColorG”, “getColorB”, and (optionally) “getColorA”, for red, green, blue and alpha.
-Instead of “getSourceColor” : use the same as above.
-Instead of “getTargetColor” : use “getTargetColorR”, etc.
-
-Plus anything accepted by that layer type. For example, for ScatterplotLayer you can set fields like “opacity”, “filled”, “stroked”, and so on.
-
-Ver mais em: https://deck.gl/#/documentation/deckgl-api-reference/layers/layer?section=pickable-boolean-optional-
-
-
-Como mudar a inclinação do mapa
-Como mostrar um popup com info
-Como mudar o ícone da mãozinha
-
-"""
