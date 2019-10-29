@@ -8,6 +8,8 @@
 ## Modo de uso:
 
 ```python
+# dependencias: pandas, numpy e opencage
+from analisadados.AnalisadordeDados import AnalisadordeDados
 # criacao da classe 
 # path do arquivo e separador
 ad = AnalisadordeDados('portalbio_export_16-10-2019-14-39-54.csv', ';')
