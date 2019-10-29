@@ -130,6 +130,11 @@ class AnalisadordeDados:
                 print(key, ":", value, "%")
 
     def nivelTax(self):
+        # Retorna o nivel taxonomico mais especifico identificado em cada item do arquivo csv
+        # Exemplo de uso: AnalisadordeDados.nivelTax()
+        # ----------- OUTPUT (salvo em self.nvTax):
+        # [['Nivel Taxonomico de 0:','Especie'],['Nivel Taxonomico de 1:','Genero'],...]
+        
         with open(self.__path, 'r') as file:
             arquivo = list(file)
             print("\n------Nível Taxonômico-----")
