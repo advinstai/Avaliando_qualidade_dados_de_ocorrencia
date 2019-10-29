@@ -1,7 +1,11 @@
 ### Instrucoes Iniciais:
   
   
-1. Documentacao: Cada integrante fica responsavel pela descricao de uma parte do desafio.
+1. Documentacao: Cada integrante fica responsavel pela descricao de uma parte do desafio.  
+2. Todos os integrantes podem se quiserem alterar qualquer parte do codigo com novas solucoes e funcionalidades que acharem interessante implementarem.  
+3. E necessario um voluntario que possa fazer o download de novos dados no portal para testar no codigo. Colocar seu nome aqui: " "  
+4. O import da classe do outro grupo sera feito e aplicado no exercicio 4.  
+5. Na quarta feira 30/10 criar um package para distribuicao, todos o pull requests devem ser finalizados antes das 17:00.  
 
 ## Melhorias e funcionalidades pendentes  
   
