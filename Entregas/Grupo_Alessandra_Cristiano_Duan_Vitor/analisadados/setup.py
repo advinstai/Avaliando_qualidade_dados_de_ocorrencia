@@ -16,5 +16,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    # em caso de erro comentar
+    install_requires=['numpy','pandas','opencage'],
     python_requires='>=3.6',
 )
