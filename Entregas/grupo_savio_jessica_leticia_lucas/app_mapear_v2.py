@@ -11,7 +11,7 @@ sys.path.append('libs')
 from felipe import verificaTaxonomia
 
 #teste()asdasd
-print('leticia d+')
+#print('leticia d+')
 
 class app_hub():
 
@@ -78,7 +78,7 @@ class app_grafica(app_hub):
 		if st.sidebar.checkbox('Integrantes'):
 
 			st.sidebar.markdown('##### @Savio')
-			st.sidebar.markdown('##### @Leticia d+')
+			st.sidebar.markdown('##### @Leticia')
 			st.sidebar.markdown('##### @Lucas')
 			st.sidebar.markdown('##### @Jessica')
 			st.sidebar.markdown(' ')
