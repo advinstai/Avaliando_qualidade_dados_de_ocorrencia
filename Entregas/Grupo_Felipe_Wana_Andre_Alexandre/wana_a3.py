@@ -33,7 +33,7 @@ class wana:
 
 		except:
 			print('Could not open the file')
-			exit()
+			sys.exit(1)
 
 	def dict(self):
 		self.df = self.file.apply(lambda x: x.astype(str).str.lower()) # turn all my data to lower case
