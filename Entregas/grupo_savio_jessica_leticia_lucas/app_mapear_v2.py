@@ -6,6 +6,7 @@ import numpy as np
 import streamlit as st
 import time
 import urllib
+import reverse_geocode
 
 sys.path.append('libs')
 from felipe import verificaTaxonomia
@@ -175,9 +176,21 @@ class app_grafica(app_hub):
 						st.dataframe(data)
 
 		#Exercicio 04 - Geocode - Verificar se dados batem
-		if self.option == app.dicionario[3]:
 
-			st.image('Arquivos/Erro.jpg')
+		if self.option == app.dicionario[3]:
+			mapa_bio = pd.read_csv(self.path)
+			mapa_bio.rename(columns={'Latitude':'lat','Longitude':'lon'}, inplace=True)
+			row = np.arange(0,len(mapa_bio))
+			loc = []
+			for i in row:
+				loc.append([mapa_bio["lat"][i], mapa_bio["lon"][i]])
+			locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
+			st.map(locDF)
+			st.write(locDF)
+
+			#Reverse geocoder (Precisa terminar)
+			cities =reverse_geocode.search(loc)
+			st.write(cities)
 
 hub_ia = app_grafica()
 hub_ia.inicializar()
