@@ -6,29 +6,22 @@
 ## 1.** Identificar a quantidade de linhas com dados faltantes.  
 -> Leticia  
   
-*=1.1 Documentaçao: No item 1 busca-se dar a informaçao da quantidade de itens faltando por coluna
+1.1 Documentaçao: No item 1 busca-se dar a informaçao da quantidade de itens faltando por coluna
 
 * Fazemos a leitura do arquivo utilizando o pandas, csv_read:
   
-* import pandas as pd  
-* import os  
-* print(os.getcwd())  
-* data = pd.read_csv("./portalbio_export_16-10-2019-14-39-54.csv", sep=";")  
+import pandas as pd  
+import os  
+print(os.getcwd())  
+data = pd.read_csv("./portalbio_export_16-10-2019-14-39-54.csv", sep=";")  
   
-* utilizamos o ';' como separador porque existem alguns campos que utilizam virgulas no meio da informaçao da celula, podendo causar desconfiguraçao no arquivo.  
-  
-* Tendo o Dataframe, sao entao definidos as colunas/indices com o 'keys'  
+* Utilizamos o ';' como separador porque existem alguns campos que utilizam virgulas no meio da informaçao da celula, podendo causar desconfiguraçao no arquivo. Tendo o Dataframe, sao entao definidos as colunas/indices com o 'keys'  
   
 * itensHash = data.keys()  
 
-* Depois sao pegos todos os dados (data.values()) e enviados para a funçao ItemFaltante  
-
-* Ali eh feito um somatorio do total de espacos vazios por coluna para cada linha  
+* Depois sao pegos todos os dados (data.values()) e enviados para a funçao ItemFaltante. Ali eh feito um somatorio do total de espacos vazios por coluna para cada linha  
 
 * No final divide-se esse somatorio pela quantidade total de linhas para dar o percentual de itens faltantes em cada coluna  
-
-
-
 
 ## 2.** Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.
 -> Lucas
