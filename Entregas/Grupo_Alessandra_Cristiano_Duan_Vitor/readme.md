@@ -5,6 +5,12 @@
 * Duan Cleypaul
 * Vitor
 
+## Instalação
+
+Na pasta '''analisadados''' executar o comando:
+
+'''pip install .'''
+
 ## Modo de uso:
 
 ```python
@@ -22,5 +28,5 @@ ad.filter(["Municipio", "Classe"], ["Londrina", ""])
 # checar nivel taxinomico
 print(ad.nivelTax())
 # checar lat long de uma sample de 10 elementos do dataset
-ad.verificar_lat_log(10)
+print(ad.verificar_lat_log(10))
 ```

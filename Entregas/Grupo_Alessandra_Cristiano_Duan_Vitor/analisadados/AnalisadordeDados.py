@@ -105,7 +105,6 @@ class AnalisadordeDados:
                 r_city = results[0]['components']['island']
             except Exception as identifier:
                 r_city = ""
-        self.pbar.update(1)
         return r_city == city
 
     def verificar_lat_log(self, n):
