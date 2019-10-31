@@ -1,18 +1,14 @@
 #Importando bibliotecas
-#lucas teste
 import sys
 import pandas as pd
 import numpy as np
 import streamlit as st
 import time
 import urllib
-import reverse_geocode
+#import reverse_geocode
 
 sys.path.append('libs')
 from felipe import verificaTaxonomia
-
-#teste()asdasd
-#print('leticia d+')
 
 class app_hub():
 
@@ -20,11 +16,6 @@ class app_hub():
 	dicionario = ['Exe. 1: Valores vazios','Exe. 2: Nivel Taxonomico','Exe. 3: Filtros','Exe. 4: Avaliar Lon / Lat']
 	linhas = []
 	lista_completa = []
-
-	#Metodo construtor
-	#def __init__(self):
-	#	file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf8')
-	#	self.linhas = file.readlines()
 
 	def carregar(self, path):
 		file = open(path, 'r', encoding='utf-8')
@@ -127,53 +118,86 @@ class app_grafica(app_hub):
 			mapa_bio.rename(columns={'Latitude':'lat','Longitude':'lon'}, inplace=True)
 
 			st.write('Monte filtros de ocorrências por estados, nome de espécie (nome exato ou parte do nome) e categoria de ameaça, e outros filtros que julgar relevante.')
-
 			lista_de_filtros = ['Municipio', 'Familia','Filo','Classe','Localidade', 'Nome cientifico']
 			filtros = st.multiselect("Escolha os filtros: -> Municipio -> Familia -> Filo -> Classe -> Localidade -> Nome cientifico", lista_de_filtros)
-			if filtros:
-				my_bar = st.progress(0)
 
-				for percent_complete in range(0, 100):
-					my_bar.progress(percent_complete + 1)
-
-			mun_key, fam_key, fil_key, cla_key, loc_key, nom_key = False, False, False, False, False, False
-
-			for i in range(0, len(filtros)):
-				if filtros[i] == 'Municipio':
-					municipios = st.multiselect('Escolha os municipios', list(set(mapa_bio[filtros[i]]))) #, ["Londrina"]
-					data = mapa_bio.loc[mapa_bio[filtros[i]].isin(municipios)]
-					mun_key == True
-			for i in range(0, len(filtros)):
-				if filtros[i] == 'Familia' and mun_key == False:
-					familias = st.multiselect('Escolha as familias', list(set(mapa_bio[filtros[i]]))) #, ["Londrina"]
-					data = data.loc[mapa_bio[filtros[i]].isin(familias)]
-				elif filtros[i] == 'Familia' and mun_key == True:
-					familias = st.multiselect('Escolha as familias', list(set(mapa_bio[filtros[i]]))) #, ["Londrina"]
-					data = mapa_bio.loc[mapa_bio[filtros[i]].isin(familias)]
+			data = pd.DataFrame()
+			f1,f2,f3,f4,f5,f6 = 1,1,1,1,1,1
 
 			if filtros:
-				st.deck_gl_chart(
-	    			viewport={
-	         		'latitude': -23.37,
-	         		'longitude': -51.28,
-	         		'zoom': 11,
-	         		'pitch': 50,
-	     			},
-	     			layers=[{
-	         		'type': 'HexagonLayer',
-			         'data': data,
-			         'radius': 200,
-			         'elevationScale': 4,
-			         'elevationRange': [0, 1000],
-			         'pickable': True,
-			         'extruded': True,
-			     	}, {
-			         'type': 'ScatterplotLayer',
-			         'data': data,
-			     	}])
+				 my_bar = st.progress(0)
+				 for percent_complete in range(0, 100):
+				 	my_bar.progress(percent_complete + 1)
 
-				if st.checkbox('Mostrar dados'):
-						st.dataframe(data)
+			for item in filtros:
+				if item == 'Municipio':
+					municipios = st.multiselect('Escolha os municipios', list(set(mapa_bio['Municipio']))) #, ["Londrina"]
+					if not municipios:
+						f1 = 1
+					else :
+						f1 = mapa_bio['Municipio'].isin(municipios)
+
+				if item == 'Familia':
+					familias = st.multiselect('Escolha a familia', list(set(mapa_bio['Familia'])))
+					if not familias:
+						f2 = 1
+					else :
+						f2 = mapa_bio['Familia'].isin(familias)
+
+				if item == 'Filo':
+					filos = st.multiselect('Escolha o Filo', list(set(mapa_bio['Filo'])))
+					if not filos:
+						f3 = 1
+					else :
+						f3 = mapa_bio['Filo'].isin(filos)
+
+				if item == 'Classe':
+					classes = st.multiselect('Escolha a classe', list(set(mapa_bio['Classe'])))
+					if not classes:
+						f4 = 1
+					else :
+						f4 = mapa_bio['Classe'].isin(classes)
+
+				if item == 'Localidade':
+					localidades = st.multiselect('Escolha Localidade', list(set(mapa_bio['Localidade'])))
+					if not localidades:
+						f5 = 1
+					else:
+						f5 = mapa_bio['Localidade'].isin(localidades)
+
+				if item == 'Nome cientifico':
+					nomes =  st.multiselect('Escolha Nome cientifico', list(set(mapa_bio['Nome cientifico'])))
+
+					if not nomes:
+						f6 = 1
+					else:
+						f6 = mapa_bio['Nome cientifico'].isin(nomes)
+
+
+				data = mapa_bio.loc[f1 & f2 & f3 & f4 & f5 & f6]
+
+			st.deck_gl_chart(
+    			viewport={
+         		'latitude': -23.37,
+         		'longitude': -51.28,
+         		'zoom': 11,
+         		'pitch': 50,
+     			},
+     			layers=[{
+         		'type': 'HexagonLayer',
+		         'data': data,
+		         'radius': 200,
+		         'elevationScale': 4,
+		         'elevationRange': [0, 1000],
+		         'pickable': True,
+		         'extruded': True,
+		     	}, {
+		         'type': 'ScatterplotLayer',
+		         'data': data,
+		     	}])
+
+			if st.checkbox('Mostrar dados'):
+					st.dataframe(data)
 
 		#Exercicio 04 - Geocode - Verificar se dados batem
 
@@ -187,10 +211,18 @@ class app_grafica(app_hub):
 			locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
 			st.map(locDF)
 			st.write(locDF)
-
-			#Reverse geocoder (Precisa terminar)
-			cities =reverse_geocode.search(loc)
-			st.write(cities)
+			#
+			# #Reverse geocoder (Precisa terminar)
+			# cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
+			# cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
+			# #New dataset com lat long e a respectiva cidade
+			# newdf = mapa_bio[['lat','lon','Municipio']]
+			# comparecities = []
+			# for j in np.arange(0,len(newdf)):
+			# 	if newdf['Municipio'][j] != cities['city'][j]:
+			# 		comparecities.append([mapa_bio['Municipio'][j],cities['city'][j]])
+			# comparecities = pd.DataFrame(comparecities, columns=['Municipio Planilha', 'Reverse Geocode'])
+			# st.write(comparecities)
 
 hub_ia = app_grafica()
 hub_ia.inicializar()
