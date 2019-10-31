@@ -7,6 +7,10 @@
 
 ## Instalação
 
+* Issue 1: Cristiano
+*
+* Issue 3: Alessandra
+
 Na pasta '''analisadados''' executar o comando:
 
 '''pip install .'''
