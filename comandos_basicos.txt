@@ -1,0 +1,55 @@
+
+############### Comandos principais   ########################
+
+* Para entrar no branch master: git checkout master
+
+* Para mudar de branch, eh soh digitar no terminal : git checkout nome_do_branch
+
+* Para deletar do branch master, eh soh digitar no terminal : git branch -d "nome_do_branch"
+
+* Para criar um novo branch:
+
+git checkout -b nome_do_branch
+
+* Para atualizar meu git
+
+Preliminares:
+git checkout nome_do_branch   #entra no meu git
+git status                    #verifica o status do git
+
+Para adiconar de fato:
+git add *  #adiciona todas as mudancas locais para o servidor local
+git commit -m "comentario_qualquer"  #submete as mudancas do branch individual para o servidor local
+git push --set-upstream origin bruna   # envio das informacoes do branch atual
+
+
+*Para atualizar seu git individual a partir do branch master (recomendado fazer o procedimento ao inicio do dia/trabalho):  
+
+git checkout nome_do_branch
+git pull #buscar todas as mudancas no branch
+git checkout master #entra no git master
+git merge bruna #puxa o branch nome_do_branch para o master
+
+* Verificar em qual branch voce esta:  git branch
+
+Para deletar um branch:
+git branch -d nome_do_branch
+git pull
+
+-----------------
+
+
+Para instalar o depurador de conflitos
+
+sudo apt-get update
+sudo apt-get install gdebi-core
+sudo gdebi bcompare-4.3.1.24438_amd64.deb 
+
+
+
+
+
+
+
+
+
