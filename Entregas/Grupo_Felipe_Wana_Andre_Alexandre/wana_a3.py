@@ -1,12 +1,14 @@
-#imports
+
+"""
+Created on Thu Oct 28 16:00 2019
+@author: Wana 
+
+"""
+
 import pandas as pd
 import numpy as np
 import csv
 
-
-""" Monte filtros de ocorrências por estados, 
-	nome de espécie (nome exato ou parte do nome) 
-	e categoria de ameaça, e outros filtros que julgar relevante."""
 
 '''
 The above ANSI escape code will set the text colour to bright green. The format is;
@@ -20,11 +22,18 @@ The above ANSI escape code will set the text colour to bright green. The format 
 class wana:
 	dados = []
 	df = None
-	dict_header = {} # creating an empty dictionary
+	dict_header = {}
 	header = None
 	auxh = []
 	def __init__(self, file, sep):
-		self.file = pd.read_csv(file, sep=sep)
+
+		try:
+
+			self.file = pd.read_csv(file, sep=sep)
+
+		except:
+			print('Could not open the file')
+			sys.exit(1)
 
 	def dict(self):
 		self.df = self.file.apply(lambda x: x.astype(str).str.lower()) # turn all my data to lower case
