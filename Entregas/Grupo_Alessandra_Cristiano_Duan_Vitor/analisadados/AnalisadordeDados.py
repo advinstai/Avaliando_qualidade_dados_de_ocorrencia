@@ -105,12 +105,11 @@ class AnalisadordeDados:
                 r_city = results[0]['components']['island']
             except Exception as identifier:
                 r_city = ""
-        self.pbar.update(1)
         return r_city == city
 
-    def call(self):
+    def verificar_lat_log(self, n):
         df = pd.read_csv(self.__path, sep='\n', delimiter=';')
-        df_sample = df.sample(n=10, random_state=1)
+        df_sample = df.sample(n=n, random_state=1)
         count = {}
         for i, (lat, long, city) in enumerate(zip(df_sample['Latitude'], df_sample['Longitude'], df_sample['Municipio'])):
             count[i] = self.verify_lat_long(city, lat, long)
