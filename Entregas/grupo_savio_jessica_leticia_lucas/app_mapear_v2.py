@@ -5,7 +5,7 @@ import numpy as np
 import streamlit as st
 import time
 import urllib
-#import reverse_geocode
+import reverse_geocode
 
 sys.path.append('libs')
 from felipe import verificaTaxonomia
@@ -24,7 +24,6 @@ class app_hub():
 		lista = df.values.tolist()
 		return df, lista
 
-	#Metodo para construir a matriz
 	def construir(self, path):
 		# ifs provisórios ate resolver os bugs
 		if path == 'Arquivos/df1.csv':
@@ -210,19 +209,21 @@ class app_grafica(app_hub):
 				loc.append([mapa_bio["lat"][i], mapa_bio["lon"][i]])
 			locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
 			st.map(locDF)
-			st.write(locDF)
-			#
-			# #Reverse geocoder (Precisa terminar)
-			# cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
-			# cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
-			# #New dataset com lat long e a respectiva cidade
-			# newdf = mapa_bio[['lat','lon','Municipio']]
-			# comparecities = []
-			# for j in np.arange(0,len(newdf)):
-			# 	if newdf['Municipio'][j] != cities['city'][j]:
-			# 		comparecities.append([mapa_bio['Municipio'][j],cities['city'][j]])
-			# comparecities = pd.DataFrame(comparecities, columns=['Municipio Planilha', 'Reverse Geocode'])
-			# st.write(comparecities)
+			if st.checkbox('Mostrar dados gerais'):
+				st.write(locDF)
+
+			#Reverse geocoder (Precisa terminar)
+			cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
+			cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
+			#New dataset com lat long e a respectiva cidade
+			newdf = mapa_bio[['lat','lon','Municipio']]
+			comparecities = []
+			for j in np.arange(0,len(newdf)):
+				if newdf['Municipio'][j] != cities['city'][j]:
+					comparecities.append([mapa_bio['Municipio'][j],cities['city'][j]])
+			comparecities = pd.DataFrame(comparecities, columns=['Municipio Planilha', 'Reverse Geocode'])
+			if st.checkbox('Mostrar dados erroneamente cadastrados'):
+				st.write(comparecities)
 
 hub_ia = app_grafica()
 hub_ia.inicializar()
