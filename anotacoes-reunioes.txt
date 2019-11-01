@@ -1,0 +1,107 @@
+Segunda - feira	, 28 de outubro de 2019.
+
+
+Participantes: Bruna, Daniel, Gabriela e Rafael.
+
+Objetivo da OOP2:
+Refazer a OOp2 mais para treinar divisao de tarefas. Foi aumentado os dados pra juntar pessoas utilizando o git.
+
+
+Inicio da reuniao: Rafael disse que em seu grupo todas as alteracoes foram na mesma classe mas nao ficou legal. 
+Sugestao do Daniel: a gabi pode fazer o fork, cria uma pasta, cada um faz um clone e faz um push. Vaos definir um arquivo com jupyter e metodos q vai ter da pra fazer merge depois. 
+Sugestao para treino: cada um da um print hello pra ver se tem algum erro ou inconscitencia
+
+
+Inicio do processo:
+Gabriela ja deu um fork no repo do silvio, soh precisamos clonar. Gabriela vai colocar a gente como colaborador. Soh a gabriela pode dar o fork
+Recebemos convite da gkimura para participar do projeto 2: avaliando_qualidade_dados_de_ocorrencia
+Gabriela ira criar um arquivo soh para gente testar se conseguimos editar e mandar pra ela
+Gabriela ira compartilhar a tela dela para vermos  como o grupo dela fez.
+Gabriela dividiu por funcoes. O lazaro juntou todas funcoes, criando um arquivo novo 
+e depois submetendo com o merge
+
+Rafael: Duvida entre variaveis e duvida sob como fazer o merge. Gabriela disse que nunca usou
+Nao foi lembrado da sala de projeto
+
+Gabriela: sala de projeto organiza as issues, o que esta fazendo e o que ja foi feito. Entao como ela ja tinha feito a maioria dos exercicios, ela ficou resposavel por fazer a divisao de funcoes. Cada membro recebeu uma funcao com a organizacao de requisitos, ou seja, o que cada classe tem e o que precisa fazer. Se alguem tinha aalguma duvida, era enviado na sala de reuniao, incluindo sugestoes, por meio de issues, comntarios..
+
+Gabriela ira criar uma classe base. Foi decido manter o mesmo processo do grupo da gabriela
+Gabriela nao conseguiu fazer a parte do mapa, pois lazaro que fez. Daniel disse que tem o codigo do mapa. Gbariela vai fazer a classe base no jupyter e mandar pra gnt, depois fazer um hello word e merge. vamos editar por cima
+
+Daniel sugeriu cada um criar um branch, pois depois facilita para fazer o merge no git.
+
+Gabriela criou um arquivo arquivo jupyter no git e todos clonaram. Daniel: agora que todos fizeram o clone, gabriela sera master, os demais farao um branch, editar seu arquivo colocando um print qualquer e depois fazer um commit e ver como estao as versoes, gabriela podera dar um merge entao para ver se funciona. Todos concordaram. Criamos um print qqr na nossa versao jupyter e apos demos git status. Apos criarmos as alteracoes no jupyter e submeter para a gabriela, trabalhamos para fazer o merge.
+
+para fazer o merge dos branchs: Gabriela deu um git checkou daniel e verificou que havia um arquivo alterado. Passos: git checkout daniel, git branch, git checkout master, git merge daniel
+Para adicionar os demais branches foi necessario instalar o pacote sudo gdebi bcompare-4.3.1 ...
+
+apos, para verificar conflito entre os branches:
+
+git branch, git merge daniel, git mergetool, entao na ferramenta verificamos o que eh conflito e o que nao eh e depois salvamos. Repetimos o mesmo procedimento git branch, git merge...
+
+apos mesclar decidimos cada um criar uma issue e depois explicar a funcao que estamos trabalhando (o que cada um fez)
+
+############################### Comandos principais   ###################################################
+
+* Para entrar no branch master: git checkout master
+
+* Para mudar de branch, eh soh digitar no terminal : git checkout nome_do_branch
+
+* Para deletar do branch master, eh soh digitar no terminal : git branch -d "nome_do_branch"
+
+* Para criar um novo branch:
+
+git checkout -b nome_do_branch
+
+* Para atualizar meu git
+
+Preliminares:
+git checkout nome_do_branch   #entra no meu git
+git status                    #verifica o status do git
+
+Adiconar de fato:
+git add *  #adiciona todas as mudancas locais para o servidor local
+git commit -m "teste"  #submete as mudancas do branch individual para o servidor local
+git push --set-upstream origin bruna   # envia o envio das informacoes do branch atual
+
+
+*Para atualizar seu git individual a partir do branch master: 
+
+git checkout bruna
+git pull #buscar todas as mudancas no branch
+git checkout master #entra no git master
+git merge bruna #puxa o branch bruna para o master
+
+* Verificar em qual branch voce esta:  git branch
+
+Para deletar um branch:
+git branch -d bruna
+git pull
+
+-----------------
+
+2 parte:
+Decidimos criar uma classe com 4 metodos, gabriela ira colocar dentro do arquivo classe os nomes de metodos 1 , 2 ,3 ,4 .. para todos verem e editarem. O daniel ficou responsavel por criar o arquivo que a gabriela ira inserir para editarmos.
+
+
+Tópico 1 - Número de dados faltantes
+Tópico 2 - Nível taxonomico
+Tópico 3 - FIltros de ocorrencias
+Tópico 4 - Verificação de localização
+
+--------------------------
+
+Para instalar o depurador de conflitos
+
+sudo apt-get update
+sudo apt-get install gdebi-core
+sudo gdebi bcompare-4.3.1.24438_amd64.deb 
+
+
+
+
+
+
+
+
+
