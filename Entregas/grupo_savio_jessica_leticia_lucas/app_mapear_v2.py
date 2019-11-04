@@ -5,7 +5,7 @@ import numpy as np
 import streamlit as st
 import time
 import urllib
-#import reverse_geocode
+import reverse_geocode
 
 sys.path.append('libs')
 from felipe import verificaTaxonomia
@@ -24,7 +24,6 @@ class app_hub():
 		lista = df.values.tolist()
 		return df, lista
 
-	#Metodo para construir a matriz
 	def construir(self, path):
 		# ifs provisórios ate resolver os bugs
 		if path == 'Arquivos/df1.csv':
@@ -208,21 +207,70 @@ class app_grafica(app_hub):
 			loc = []
 			for i in row:
 				loc.append([mapa_bio["lat"][i], mapa_bio["lon"][i]])
-			locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
-			st.map(locDF)
-			st.write(locDF)
+			#locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
+			#st.map(locDF)
+			#st.write(locDF)
 			#
 			# #Reverse geocoder (Precisa terminar)
-			# cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
-			# cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
-			# #New dataset com lat long e a respectiva cidade
-			# newdf = mapa_bio[['lat','lon','Municipio']]
-			# comparecities = []
-			# for j in np.arange(0,len(newdf)):
-			# 	if newdf['Municipio'][j] != cities['city'][j]:
-			# 		comparecities.append([mapa_bio['Municipio'][j],cities['city'][j]])
-			# comparecities = pd.DataFrame(comparecities, columns=['Municipio Planilha', 'Reverse Geocode'])
-			# st.write(comparecities)
+			cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
+			cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
+			#New dataset com lat long e a respectiva cidade
+			newdf = mapa_bio[['lat','lon','Municipio']]
+			comparecitiesTrue = []
+			comparecitiesFalse = []
+			for j in np.arange(0,len(newdf)):
+				if newdf['Municipio'][j] != cities['city'][j]:
+					comparecitiesFalse.append([mapa_bio['lat'][j],mapa_bio['lon'][j],mapa_bio['Municipio'][j],cities['city'][j]])
+				if newdf['Municipio'][j] == cities['city'][j]:
+					comparecitiesTrue.append([mapa_bio['lat'][j],mapa_bio['lon'][j],mapa_bio['Municipio'][j],cities['city'][j]])
+			comparecitiesFalse = pd.DataFrame(comparecitiesFalse, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
+			comparecitiesTrue = pd.DataFrame(comparecitiesTrue, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
+			st.markdown('### Dados com Localização Correta')
+			#st.map(comparecitiesTrue[['lat','lon']])
+			st.deck_gl_chart(
+    			viewport={
+         		'latitude': -23.37,
+         		'longitude': -51.28,
+         		'zoom': 11,
+         		'pitch': 50,
+     			},
+     			layers=[{
+         		'type': 'HexagonLayer',
+		         'data': comparecitiesTrue[['lat','lon']],
+		         'radius': 200,
+		         'elevationScale': 4,
+		         'elevationRange': [0, 1000],
+		         'pickable': True,
+		         'extruded': True,
+		     	}, {
+		         'type': 'ScatterplotLayer',
+		         'data': comparecitiesTrue[['lat','lon']],
+		     	}])
+			if st.checkbox('Mostrar dados corretos:'):
+				st.write(comparecitiesTrue.loc[:,['Municipio Planilha', 'Reverse Geocode']])
+			st.markdown('### Dados com Localização Incorreta')
+			#st.map(comparecitiesFalse[['lat','lon']])
+			st.deck_gl_chart(
+    			viewport={
+         		'latitude': -23.37,
+         		'longitude': -51.28,
+         		'zoom': 11,
+         		'pitch': 50,
+     			},
+     			layers=[{
+         		'type': 'HexagonLayer',
+		         'data': comparecitiesFalse[['lat','lon']],
+		         'radius': 200,
+		         'elevationScale': 4,
+		         'elevationRange': [0, 1000],
+		         'pickable': True,
+		         'extruded': True,
+		     	}, {
+		         'type': 'ScatterplotLayer',
+		         'data': comparecitiesFalse[['lat','lon']],
+		     	}])
+			if st.checkbox('Mostrar dados incorretos:'):
+				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode']])
 
 hub_ia = app_grafica()
 hub_ia.inicializar()
