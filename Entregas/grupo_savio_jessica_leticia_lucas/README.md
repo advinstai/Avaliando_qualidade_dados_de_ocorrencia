@@ -23,6 +23,7 @@ Exercicio 2: Esta com um bug na funcao, esta sendo passado uma lista pela variav
   
 Documentacao do exercicio 2.  
 ### Assign Task:" Lucas " Status: Work in Progress   
+
   
 --------------------------------------------------------------------------------------  
 Exercicio 3: A logica dos filtros do exercicio 3 esta incompleta, e os unicos filtros aplicaveis ate o momento sao Municipios e Familias, fazer o restante dos filtros.  

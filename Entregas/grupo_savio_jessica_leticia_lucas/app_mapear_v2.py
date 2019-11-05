@@ -109,6 +109,17 @@ class app_grafica(app_hub):
 			#st.bar_chart(verificaTaxonomia(app.construir(lista)))
 			if st.checkbox('Valores por Coluna'):
 				st.write(verificaTaxonomia(app.construir(self.path)))
+		
+		#chama o nível taxonomico do mais geral, Reino (1), até o mais específico, Espécie (7)
+		#def taxonomicRank(self):
+		#	c = lista #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
+		#	rank = []
+		#	for i in range(1,len(c)):
+		#	    for j in range(21, 14, -1):
+		#		if c[i][j] != 'Sem Informações':
+		#		    break
+		#	    rank.append(j-14)      
+		#	return rank
 
 		#Exercicio 03  Filtros
 		if self.option == app.dicionario[2]:
