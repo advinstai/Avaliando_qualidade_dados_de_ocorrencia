@@ -55,8 +55,9 @@ class FindNan:
                     # A primeira linha do arquivo são os títulos das colunas
     
         
-
+'''
 csv_file = 'portalbio_export_17-10-2019-13-06-22.csv'  # Arquivo CSV que será carregado
 csv_open = FindNan(csv_file)  # Criação da instância da classe MyData
 mean_nan_values = csv_open.getEmpty() #  Utiliza o método para obter as células vazias
 csv_open.printReport()
+'''

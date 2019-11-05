@@ -78,9 +78,10 @@ class wana:
 		else:
 			print('wrong answer, try again :(')
 			
-
+'''
 if __name__ == '__main__':
 	f = '/home/wanabb/repo-git/repositorio-git/Avaliando_qualidade_dados_de_ocorrencia/Entregas/Grupo_Felipe_Wana_Andre_Alexandre/portalbio_export_16-10-2019-14-39-54.csv'
 	s = ';'
 	r = wana(f,s)
 	r.show_and_save()
+'''

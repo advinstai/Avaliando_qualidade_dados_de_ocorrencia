@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 17 14:24:37 2019
-
 @author: felipe
-
 exPyBIO: equipe
 """
 
@@ -47,7 +45,7 @@ class AvaliaTax:
         try:
             arquivo = open(caminho, "r")
         except IOError as e:
-            print "erro ao abrir o arquivo: " , e.args
+            print ("erro ao abrir o arquivo: " , e.args)
             return
         
         # Lê tudo de uma vez:    
@@ -60,10 +58,10 @@ class AvaliaTax:
         # Converte CSV em matriz
         
         try:
-            dadosXY = map(lambda l: l.split(";"), base)
+            dadosXY = list(map(lambda l: l.split(";"), base))
             
         except AttributeError as e:
-            print "Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args
+            print ("Falha ao processar o arquivo CSV, deve ter muitas colunas faltando. " , e.args)
         
         return dadosXY
     
@@ -112,7 +110,7 @@ class AvaliaTax:
             tax = linha[colunaFilo:colunaFilo+7] # examina apenas as colunas com a classificação 
              # para cada coluna que contem a taxonomia ver quais são nulas, 
              # caso nenhuma coluna é nula a classificacao é completa: 7
-            nivel =  7 - sum ( map(AvaliaTax.vazio, tax)  )
+            nivel =  7 - sum ( list(map(AvaliaTax.vazio, tax))  )
              
              # adiciona o nível calculado na listagem geral
             nivelTaxonomico.append(nivel)
@@ -160,6 +158,3 @@ class AvaliaTax:
         #aqui acontece o procedimento (ver detalhes na documentação)
         #usei a técnica da máscara de matriz
         return 7 - np.sum( dadosnp[:,colunaFilo:colunaFilo+6] == AvaliaTax.vaziop , 1)
-        
-        
-        
