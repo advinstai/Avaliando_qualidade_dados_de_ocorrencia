@@ -13,6 +13,12 @@ Os detalhes estão em:
 
 https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/projects/1
 
+## Wiki
+
+Documentação:
+
+https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/wiki/Challenge-OOP2
+
 ## Relatório
 
 - Item 1 Adicionado. Opera com Pandas
@@ -22,7 +28,8 @@ https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/projects/1
 - Item 3 Adicionado. Opera com Pandas
   - Suporta _True Color_ no console
 - Item 4 Adicionado. Opera com Pandas
-  - Função avulsa para validar se o estado está nas coordenadas corretas
+  - Tem função dedicada para validar se o estado está nas coordenadas corretas
+- Item 5 Adicionado. Testes e resultados no arquivo report
 - Item 7 Adicionado. Teste em outros arquivos do icmBio
   - Classe dedicada para testes
 
