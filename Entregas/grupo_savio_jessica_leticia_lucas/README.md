@@ -1,5 +1,6 @@
 ### Instrucoes Iniciais:
   
+Aplicação implementada no endereço: https://mapear.herokuapp.com/
   
 1. Documentacao: Cada integrante fica responsavel pela descricao de uma parte do desafio.  
 2. Todos os integrantes podem se quiserem alterar qualquer parte do codigo com novas solucoes e funcionalidades que acharem interessante implementarem.  
@@ -12,16 +13,17 @@
   
 Exercicio 1: Atualemte retorna uma lista com os valores vazios e media.
 Sugestao de melhoria:  Ao inves de retornar uma lista somente com os valores vazios, retornar uma lista com os valores vazios e o nome cientifico, dessa forma quando a lista fosse plotada no grafico apareceria os labels correspondentes de cada especie.  
-### Assign Taks: " " Waiting for developer aplly   
+### Assign Taks: " " Waiting..  
   
 Documentacao do exercicio 1. Descrever em detalhes testes, dificuldades, bugs, etc.  
-### Assign Taks: " Leticia " Done   
+### Assign Taks: " Leticia "   
    
 --------------------------------------------------------------------------------------  
 Exercicio 2: Esta com um bug na funcao, esta sendo passado uma lista pela variavel path, entretanto a lista passada parece nao esta no formato correto, e esta retornando uma lista com o dobro de valores de linhas. Por enquanto existe tres funcoes "if" provisorias para a aplicacao nao falhar.  
   
 Documentacao do exercicio 2.  
 ### Assign Task:" Lucas " Status: Work in Progress   
+
   
 --------------------------------------------------------------------------------------  
 Exercicio 3: A logica dos filtros do exercicio 3 esta incompleta, e os unicos filtros aplicaveis ate o momento sao Municipios e Familias, fazer o restante dos filtros.  
