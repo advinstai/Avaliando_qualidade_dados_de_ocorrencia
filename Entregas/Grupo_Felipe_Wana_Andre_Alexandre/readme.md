@@ -21,6 +21,8 @@ https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/projects/1
   - Tem adaptador de Pandas para List()
 - Item 3 Adicionado. Opera com Pandas
   - Suporta _True Color_ no console
+- Item 7 Adicionado. Teste em outros arquivos do icmBio
+  - Classe dedicada para testes
 
 Adicionado o diagrama de classes, ainda está fora da norma... A class AvaliaTax tem seus métodos estáticos (podem ser chamados sem instanciar)
 
