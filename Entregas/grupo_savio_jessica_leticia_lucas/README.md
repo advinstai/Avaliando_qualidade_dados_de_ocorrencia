@@ -1,6 +1,7 @@
 ### Instrucoes Iniciais:
   
 Aplicação implementada no endereço: https://mapear.herokuapp.com/
+Documentação no endereço: https://github.com/Havyx/Avaliando_qualidade_dados_de_ocorrencia/wiki
   
 1. Documentacao: Cada integrante fica responsavel pela descricao de uma parte do desafio.  
 2. Todos os integrantes podem se quiserem alterar qualquer parte do codigo com novas solucoes e funcionalidades que acharem interessante implementarem.  
