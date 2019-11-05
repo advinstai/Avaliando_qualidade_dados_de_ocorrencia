@@ -65,7 +65,7 @@ Passos:
 myFindNaN = FindNaN("portalbio_export_04-11-2019-20-55-04.csv")
 ```
 
-2. Use o adaptar para converter o tipo _FrameData_ do pandas para o _Numpy_ coms os devidos cabeçalhos
+2. Use o adaptador para converter o tipo _FrameData_ do pandas para o _Numpy_ com os devidos cabeçalhos
  
 ```
 dadosN = AvaliaTax.pandasAdapter(myFindNaN.df)
