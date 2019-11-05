@@ -30,7 +30,7 @@ Adicionado o diagrama de classes, ainda está fora da norma... A class AvaliaTax
 
 ## UML
 
-Pedaços de UML das classes dos itens 1 e 2. 
+Diagrama de classes do _Unified Modeling Language_
 
 ![img](uml_simples.png)
 
