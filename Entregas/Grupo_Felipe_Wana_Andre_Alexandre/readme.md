@@ -36,6 +36,8 @@ Pedaços de UML das classes dos itens 1 e 2.
 
 ## Dúvidas frequentes
 
+### Métodos estáticos
+
 Esta classe utiliza métodos estáticos @staticmethod
 Estes métodos podem ser acessados fora dos objetos, como se fosse uma função solta. Equivale ao agrupando das funçoes para não ficaram perdidas no escopo ao importar para outros arquivos, praticamente é um módulo.
 ```
@@ -53,5 +55,26 @@ Estes métodos podem ser acessados fora dos objetos, como se fosse uma função 
  
  Quando uma classe vira um aglomerado de funções, para projetos pequenos, creio que fica mais fácil de entender. 
  Qualquer coisa basta remover a linha @staticmethod que tudo funcionará normalmente.
+ 
+ ### Como usar a classe AvaliarTax
+ 
+Passos:
+
+1. Carregue um arquivo CSV através da classe FindNaN. Exemplo:
+ ```
+myFindNaN = FindNaN("portalbio_export_04-11-2019-20-55-04.csv")
+```
+
+2. Use o adaptar para converter o tipo _FrameData_ do pandas para o _Numpy_ coms os devidos cabeçalhos
+ 
+```
+dadosN = AvaliaTax.pandasAdapter(myFindNaN.df)
+```
+3. Use a seguinte função (ela retornará uma lista associando cada linha com seu respectivo nível taxonômico)``
+```
+res2 = AvaliaTax.verificaTaxonomiaAsNumpy(dadosN)
+```
+ 
+ 
   
  
