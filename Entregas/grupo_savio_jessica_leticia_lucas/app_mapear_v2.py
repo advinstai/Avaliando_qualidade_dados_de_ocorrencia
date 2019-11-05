@@ -8,7 +8,7 @@ import urllib
 import reverse_geocode
 
 sys.path.append('libs')
-from felipe import verificaTaxonomia
+#from felipe import verificaTaxonomia
 
 class app_hub():
 
@@ -17,24 +17,26 @@ class app_hub():
 	linhas = []
 	lista_completa = []
 
-	def carregar(self, path):
-		file = open(path, 'r', encoding='utf-8')
-		self.linhas = file.readlines()
-		df = pd.read_csv(path)
-		lista = df.values.tolist()
-		return df, lista
+	#def carregar(self, path):
+	#	file = open(path, 'r', encoding='utf-8')
+	#	self.linhas = file.readlines()
+	#	df = pd.read_csv(path)
+	#	lista = df.values.tolist()
+	#	return df, lista
 
 	def construir(self, path):
+		df = pd.read_csv(path, sep='\n',delimiter=';')
 		# ifs provisórios ate resolver os bugs
-		if path == 'Arquivos/df1.csv':
-			file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf-8')
-		if path == 'Arquivos/df2.csv':
-			file = open('Arquivos/portalbio_export_16-10-2019-14-39-54.csv', 'r', encoding='utf-8')
-		if path == 'Arquivos/df3.csv':
-			file = open('Arquivos/portalbio_export_17-10-2019-13-15-00.csv', 'r', encoding='utf-8')
-		self.linhas = file.readlines()
-		self.lista_completa = [[item for item in itens.split(';')]for itens in self.linhas]
-		return self.lista_completa
+		#if path == 'Arquivos/df1.csv':
+			#file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf-8')
+		#if path == 'Arquivos/df2.csv':
+		#	file = open('Arquivos/portalbio_export_16-10-2019-14-39-54.csv', 'r', encoding='utf-8')
+		#if path == 'Arquivos/df3.csv':
+		#	file = open('Arquivos/portalbio_export_17-10-2019-13-15-00.csv', 'r', encoding='utf-8')
+		#self.linhas = file.readlines()
+		#self.lista_completa = [[item for item in itens.split(';')]for itens in self.linhas]
+		lista_completa = [df.columns.values.tolist()] + df.values.tolist()
+		return df, lista_completa
 
 	#Metodo para contar os nulos
 	def count_nulls(self, lista):
@@ -55,7 +57,7 @@ class app_grafica(app_hub):
 
 	option = []
 	option_01 = []
-	path = 'Arquivos/df1.csv'
+	path = 'Arquivos/portalbio_export_17-10-2019-13-06-22.csv'
 
 	def __init__(self, app = app_hub()):
 		print('App Inicializado com Sucesso! =^.^=')
@@ -75,12 +77,12 @@ class app_grafica(app_hub):
 			st.sidebar.markdown(' ')
 
 		if st.sidebar.checkbox('Caminho para a base de dados'):
-			self.path = st.sidebar.text_input('Digite o caminho: ', 'Arquivos/df1.csv')
+			self.path = st.sidebar.text_input('Digite o caminho: ', 'Arquivos/portalbio_export_17-10-2019-13-06-22.csv')
 
 	def inicializar(self, app = app_hub()):
 
 		opcoes = ['Quantidade de valores nao preenchidos', 'Porcetagem de dados faltantes por coluna']
-		dados, lista = app.carregar(self.path)
+		dados, lista = app.construir(self.path)
 
 			#Exercicio 01 valores vazios
 		if self.option == app.dicionario[0]:
@@ -104,11 +106,24 @@ class app_grafica(app_hub):
 		#Exercicio 02 Nivel taxonomico
 		if self.option == app.dicionario[1]:
 			st.write('Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.')
+			#st.write(dados[1][2])
 			#verificaTaxonomia metodo importado do felipe
-			st.bar_chart(verificaTaxonomia(app.construir(self.path)))
+			#st.bar_chart(verificaTaxonomia(lista))
 			#st.bar_chart(verificaTaxonomia(app.construir(lista)))
+			#if st.checkbox('Valores por Coluna'):
+			#	st.write(verificaTaxonomia(lista))
+			c = dados #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
+			rank = []
+			for i in range(1,len(c)):
+				for j in range(21, 14, -1):
+					#st.write()
+					if c.iloc[i,j] != 'Sem Informações':
+						break
+					rank.append(j-14)
+			st.bar_chart(rank)
 			if st.checkbox('Valores por Coluna'):
-				st.write(verificaTaxonomia(app.construir(self.path)))
+				st.write(rank)
+
 		
 		#chama o nível taxonomico do mais geral, Reino (1), até o mais específico, Espécie (7)
 		#def taxonomicRank(self):
@@ -123,8 +138,7 @@ class app_grafica(app_hub):
 
 		#Exercicio 03  Filtros
 		if self.option == app.dicionario[2]:
-
-			mapa_bio = pd.read_csv(self.path)
+			mapa_bio = dados
 			mapa_bio.rename(columns={'Latitude':'lat','Longitude':'lon'}, inplace=True)
 
 			st.write('Monte filtros de ocorrências por estados, nome de espécie (nome exato ou parte do nome) e categoria de ameaça, e outros filtros que julgar relevante.')
@@ -212,7 +226,12 @@ class app_grafica(app_hub):
 		#Exercicio 04 - Geocode - Verificar se dados batem
 
 		if self.option == app.dicionario[3]:
-			mapa_bio = pd.read_csv(self.path)
+			mapa_bio = dados
+			#mapa_bio = mapa_bio[mapa_bio.Longitude != "Acesso Restrito"]
+			#mapa_bio['Latitude'] = mapa_bio['Latitude'].astype(dtype=np.float64)
+			#mapa_bio['Longitude'] = mapa_bio['Longitude'].astype(dtype=np.float64)
+			#mapa_bio.astype({'Latitude': "float"}).dtypes
+			#mapa_bio.astype({'Longitude': "float"}).dtypes
 			mapa_bio.rename(columns={'Latitude':'lat','Longitude':'lon'}, inplace=True)
 			row = np.arange(0,len(mapa_bio))
 			loc = []
@@ -221,8 +240,6 @@ class app_grafica(app_hub):
 			#locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
 			#st.map(locDF)
 			#st.write(locDF)
-			#
-			# #Reverse geocoder (Precisa terminar)
 			cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
 			cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
 			#New dataset com lat long e a respectiva cidade
