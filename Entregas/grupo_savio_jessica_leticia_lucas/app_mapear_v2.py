@@ -153,6 +153,8 @@ class app_grafica(app_hub):
 				 my_bar = st.progress(0)
 				 for percent_complete in range(0, 100):
 				 	my_bar.progress(percent_complete + 1)
+			else:
+				st.error("Por favor, escolha pelo menos um filtro acima")
 
 			for item in filtros:
 				if item == 'Municipio':
@@ -393,7 +395,7 @@ class app_grafica(app_hub):
 				#viewport['longitude'] = float(lon)
 				st.deck_gl_chart(viewport=viewport, layers = selected_layers)
 			else:
-				st.error("Please choose at least one layer above.")
+				st.error("Por favor, escolha pelo menos uma camada na barra lateral esquerda.")
 
 
                 #Exercicio 04 - Geocode - Verificar se dados batem
