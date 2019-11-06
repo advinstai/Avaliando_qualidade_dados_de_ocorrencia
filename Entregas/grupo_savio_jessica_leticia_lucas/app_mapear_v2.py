@@ -119,7 +119,7 @@ class app_grafica(app_hub):
 					#st.write()
 					if c.iloc[i,j] != 'Sem Informações':
 						break
-					rank.append(j-14)
+				rank.append(j-14)
 			st.bar_chart(rank)
 			if st.checkbox('Valores por Coluna'):
 				st.write(rank)
