@@ -387,10 +387,18 @@ class app_grafica(app_hub):
 			#print(ALL_LAYERS)
 			st.sidebar.markdown('### Camadas do Mapa')
 			selected_layers = [layer for layer_name, layer in ALL_LAYERS.items() if st.sidebar.checkbox(layer_name, True)]
+			lat = st.sidebar.text_input('Latitude', -23.37)
+			lon = st.sidebar.text_input('Longitude', -51.28)
+			viewport = {"latitude": -23.37, "longitude": -51.28, "zoom": 11, "pitch": 50}
+			viewport['latitude'] = float(lat)
+			viewport['longitude'] = float(lon)
+			if st.sidebar.button('Recarregar Mapa'):
+				selected_layers = None
+
 			if selected_layers:
 				#lat = st.text_input('Latitude', -23.37)
 				#lon = st.text_input('Latitude', -51.28)
-				viewport = {"latitude": -23.37, "longitude": -51.28, "zoom": 11, "pitch": 50}
+				#viewport = {"latitude": -23.37, "longitude": -51.28, "zoom": 11, "pitch": 50}
 				#viewport['latitude'] = float(lat)
 				#viewport['longitude'] = float(lon)
 				st.deck_gl_chart(viewport=viewport, layers = selected_layers)
