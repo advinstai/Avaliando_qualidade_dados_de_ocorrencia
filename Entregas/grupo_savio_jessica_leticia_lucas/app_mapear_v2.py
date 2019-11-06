@@ -84,6 +84,20 @@ class app_grafica(app_hub):
 
 		opcoes = ['Quantidade de valores nao preenchidos', 'Porcetagem de dados faltantes por coluna']
 		dados, lista = app.construir(self.path)
+		def parse(val):
+			try:
+				val=float(val)
+			except :
+				val = 0
+			return val
+
+		dados['Latitude']=dados['Latitude'].apply(lambda x: parse(x))
+		dados['Longitude']=dados['Longitude'].apply(lambda x: parse(x))
+
+#Codigos do Lazaro
+#df[['area','volume']] = df['raio','altura','idle'].apply(lambda x: myfunction(x))
+#def myfunction(vec):
+#return pd.Series(pi()*vec[0]**2,pi()*vec[0]**2*vec[1])
 
 			#Exercicio 01 valores vazios
 		if self.option == app.dicionario[0]:
@@ -278,7 +292,7 @@ class app_grafica(app_hub):
 		        # 'data': comparecitiesTrue[['lat','lon']],
 		     	#}])
 			if st.checkbox('Mostrar dados corretos:'):
-				st.write(comparecitiesTrue.loc[:,['Municipio Planilha', 'Reverse Geocode']])
+				st.write(comparecitiesTrue.loc[:,['Municipio Planilha', 'Reverse Geocode','lat','lon']])
 			#st.markdown('### Dados com Localização Incorreta')
 			#st.map(comparecitiesFalse[['lat','lon']])
 			#st.deck_gl_chart(
@@ -301,7 +315,7 @@ class app_grafica(app_hub):
 		        # 'data': comparecitiesFalse[['lat','lon']],
 		     	#}])
 			if st.checkbox('Mostrar dados incorretos:'):
-				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode']])
+				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode', 'lat', 'lon']])
 
 			# try:
 			# 	ALL_LAYERS = {
