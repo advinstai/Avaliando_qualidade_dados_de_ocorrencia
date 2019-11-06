@@ -124,7 +124,7 @@ class app_grafica(app_hub):
 			if st.checkbox('Valores por Coluna'):
 				st.write(rank)
 
-		
+
 		#chama o nível taxonomico do mais geral, Reino (1), até o mais específico, Espécie (7)
 		#def taxonomicRank(self):
 		#	c = lista #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
@@ -133,7 +133,7 @@ class app_grafica(app_hub):
 		#	    for j in range(21, 14, -1):
 		#		if c[i][j] != 'Sem Informações':
 		#		    break
-		#	    rank.append(j-14)      
+		#	    rank.append(j-14)
 		#	return rank
 
 		#Exercicio 03  Filtros
@@ -300,5 +300,5 @@ class app_grafica(app_hub):
 			if st.checkbox('Mostrar dados incorretos:'):
 				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode']])
 
-hub_ia = app_grafica()
-hub_ia.inicializar()
+#hub_ia = app_grafica()
+#hub_ia.inicializar()
