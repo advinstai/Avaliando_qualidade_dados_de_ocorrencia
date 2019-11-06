@@ -401,6 +401,8 @@ class app_grafica(app_hub):
                 #Exercicio 04 - Geocode - Verificar se dados batem
 
 		if self.option == app.dicionario[4]:
+			if st.button('RubIa'):
+				st.write('voces sao foda <3')
 			from PIL import Image
 			image = Image.open('Arquivos/hub.jpeg')
 			st.image(image, caption='The Best Team :D',use_column_width=True)
