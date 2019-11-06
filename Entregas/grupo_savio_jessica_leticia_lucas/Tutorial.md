@@ -192,6 +192,9 @@ Se o filtro selecionado tiver contido na coluna correspondente do DataFrame, ent
 			comparecitiesFalse = pd.DataFrame(comparecitiesFalse, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
 			comparecitiesTrue = pd.DataFrame(comparecitiesTrue, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
 ```
+* Através da análise do input (.cvs), passou-se as coordenadas de latitude e longitude para o ``reverse_geocode`` na lista gerada ``loc``. Este retorna uma lista contemplando o código do país, cidade e nome do país. 
+
+* Desta forma, com o retorno da function ``reverse_geocode``, comparou-se o munícipio do input (.csv) com o retorno da function ``reverse_geocode``, salvando separadamente através de um check os municípios compatívels e incompatíveis (lista ``comparecitiesTrue`` e ``comparecitiesFalse``, respectivamente). Sendo estes repassados para o plot do mapa.
 --------------------------------------
 ## **5.** Teste da classe desenvolvida com os 3 arquivos passados.
 
