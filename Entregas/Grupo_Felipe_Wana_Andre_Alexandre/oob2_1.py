@@ -9,6 +9,7 @@ Created on Mon Oct 28 10:06:11 2019
 # Bibliotecas
 import sys
 import pandas as pd
+import numpy as np
 
 # Classes
 class FindNan:
@@ -16,6 +17,7 @@ class FindNan:
     def __init__(self, my_csv):
         try:
             self.df = pd.read_csv(my_csv, sep='\n', delimiter=';')  # Cria o dataframe através do arquivo CSV
+            self.nan_df = []
         except IOError as e:
             print('Could not read the file', my_csv) # Caso o arquivo com o nome citado não exista, o programa é encerrado
             print ('I/O error({0}): {1}'.format(e.errno, e.strerror))  # Indica o erro ocorrido 
@@ -34,10 +36,28 @@ class FindNan:
             
             # Divide a soma dos dados faltantes pelo número de linhas para obtger a média
             count_mean[field] = (count_mean[field]/self.n_lines)*100  #  A multiplicação por 100 obtém a porcentagem dos dados faltantes
-        nan_df = pd.DataFrame([count_mean])  # Transforma o dicionário em um dataframe com as porcentagens de dados faltantes
-        return nan_df
+        self.nan_df = pd.DataFrame([count_mean])  # Transforma o dicionário em um dataframe com as porcentagens de dados faltantes
+        return self.nan_df
+    
+    def printReport(self): # Método que envia um relatório dos dados faltantes
+        fr = open('report', 'w')
+        print('\n')
+        print('***********************************************')
+        print('Relatório dos dados faltantes')
+        print('***********************************************')
+        print('\n')
+        fr.write('item'+';'+'dados faltantes(%)'+'\n')
+        for column in self.nan_df.columns:
+            print(column , ':', self.nan_df[column].values[0], ' %')  # Printa os dados faltantes na tela
+            fr.write(column+';'+str(self.nan_df[column].values[0])+'\n') # Gera um CSV com a porcentagem dos dados faltantes
+        fr.close()
+        return fr  # O método retorna o arquivo com o relatório de dados faltantes
+                    # A primeira linha do arquivo são os títulos das colunas
+    
         
-
+'''
 csv_file = 'portalbio_export_17-10-2019-13-06-22.csv'  # Arquivo CSV que será carregado
 csv_open = FindNan(csv_file)  # Criação da instância da classe MyData
 mean_nan_values = csv_open.getEmpty() #  Utiliza o método para obter as células vazias
+csv_open.printReport()
+'''
