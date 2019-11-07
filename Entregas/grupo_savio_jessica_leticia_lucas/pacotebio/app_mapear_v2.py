@@ -13,7 +13,7 @@ sys.path.append('libs')
 class app_hub():
 
 	#Atributos da classe app_hub:
-	dicionario = ['Exe. 1: Valores vazios','Exe. 2: Nivel Taxonomico','Exe. 3: Filtros','Exe. 4: Avaliar Lon / Lat']
+	dicionario = ['Op. 1: Valores vazios','Op. 2: Nivel Taxonomico','Op. 3: Filtros','Op. 4: Avaliar Lon / Lat','Op. 5: Equipe Hub']
 	linhas = []
 	lista_completa = []
 
@@ -79,6 +79,7 @@ class app_grafica(app_hub):
 		if st.sidebar.checkbox('Caminho para a base de dados'):
 			self.path = st.sidebar.text_input('Digite o caminho: ', 'Arquivos/portalbio_export_17-10-2019-13-06-22.csv')
 
+
 	def inicializar(self, app = app_hub()):
 
 		opcoes = ['Quantidade de valores nao preenchidos', 'Porcetagem de dados faltantes por coluna']
@@ -124,7 +125,7 @@ class app_grafica(app_hub):
 			if st.checkbox('Valores por Coluna'):
 				st.write(rank)
 
-		
+
 		#chama o nível taxonomico do mais geral, Reino (1), até o mais específico, Espécie (7)
 		#def taxonomicRank(self):
 		#	c = lista #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
@@ -133,7 +134,7 @@ class app_grafica(app_hub):
 		#	    for j in range(21, 14, -1):
 		#		if c[i][j] != 'Sem Informações':
 		#		    break
-		#	    rank.append(j-14)      
+		#	    rank.append(j-14)
 		#	return rank
 
 		#Exercicio 03  Filtros
@@ -152,6 +153,8 @@ class app_grafica(app_hub):
 				 my_bar = st.progress(0)
 				 for percent_complete in range(0, 100):
 				 	my_bar.progress(percent_complete + 1)
+			else:
+				st.error("Por favor, escolha pelo menos um filtro acima")
 
 			for item in filtros:
 				if item == 'Municipio':
@@ -253,52 +256,154 @@ class app_grafica(app_hub):
 					comparecitiesTrue.append([mapa_bio['lat'][j],mapa_bio['lon'][j],mapa_bio['Municipio'][j],cities['city'][j]])
 			comparecitiesFalse = pd.DataFrame(comparecitiesFalse, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
 			comparecitiesTrue = pd.DataFrame(comparecitiesTrue, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
-			st.markdown('### Dados com Localização Correta')
+			st.markdown('### Dados com Localização Correta e Incorreta')
 			#st.map(comparecitiesTrue[['lat','lon']])
-			st.deck_gl_chart(
-    			viewport={
-         		'latitude': -23.37,
-         		'longitude': -51.28,
-         		'zoom': 11,
-         		'pitch': 50,
-     			},
-     			layers=[{
-         		'type': 'HexagonLayer',
-		         'data': comparecitiesTrue[['lat','lon']],
-		         'radius': 200,
-		         'elevationScale': 4,
-		         'elevationRange': [0, 1000],
-		         'pickable': True,
-		         'extruded': True,
-		     	}, {
-		         'type': 'ScatterplotLayer',
-		         'data': comparecitiesTrue[['lat','lon']],
-		     	}])
+			#st.deck_gl_chart(
+    			#viewport={
+         		#'latitude': -23.37,
+         		#'longitude': -51.28,
+         		#'zoom': 11,
+         		#'pitch': 50,
+     			#},
+     			#layers=[{
+         		#'type': 'HexagonLayer',
+		        # 'data': comparecitiesTrue[['lat','lon']],
+		        # 'radius': 200,
+		        # 'elevationScale': 4,
+		        # 'elevationRange': [0, 1000],
+		        # 'pickable': True,
+		        # 'extruded': True,
+		     	#}, {
+		        # 'type': 'ScatterplotLayer',
+		        # 'data': comparecitiesTrue[['lat','lon']],
+		     	#}])
 			if st.checkbox('Mostrar dados corretos:'):
 				st.write(comparecitiesTrue.loc[:,['Municipio Planilha', 'Reverse Geocode']])
-			st.markdown('### Dados com Localização Incorreta')
+			#st.markdown('### Dados com Localização Incorreta')
 			#st.map(comparecitiesFalse[['lat','lon']])
-			st.deck_gl_chart(
-    			viewport={
-         		'latitude': -23.37,
-         		'longitude': -51.28,
-         		'zoom': 11,
-         		'pitch': 50,
-     			},
-     			layers=[{
-         		'type': 'HexagonLayer',
-		         'data': comparecitiesFalse[['lat','lon']],
-		         'radius': 200,
-		         'elevationScale': 4,
-		         'elevationRange': [0, 1000],
-		         'pickable': True,
-		         'extruded': True,
-		     	}, {
-		         'type': 'ScatterplotLayer',
-		         'data': comparecitiesFalse[['lat','lon']],
-		     	}])
+			#st.deck_gl_chart(
+    			#viewport={
+         		#'latitude': -23.37,
+         		#'longitude': -51.28,
+         		#'zoom': 11,
+         		#'pitch': 50,
+     			#},
+     			#layers=[{
+         		#'type': 'HexagonLayer',
+		        # 'data': comparecitiesFalse[['lat','lon']],
+		        # 'radius': 200,
+		        # 'elevationScale': 4,
+		        # 'elevationRange': [0, 1000],
+		        # 'pickable': True,
+		        # 'extruded': True,
+		     	#}, {
+		        # 'type': 'ScatterplotLayer',
+		        # 'data': comparecitiesFalse[['lat','lon']],
+		     	#}])
 			if st.checkbox('Mostrar dados incorretos:'):
 				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode']])
 
-hub_ia = app_grafica()
-hub_ia.inicializar()
+			# try:
+			# 	ALL_LAYERS = {
+			#         "Bike Rentals": {
+ 			# 			"type": "HexagonLayer",
+			#             "data": from_data_file("bike_rental_stats.json"),
+			#             "radius": 200,
+			#             "elevationScale": 4,
+			#             "elevationRange": [0, 1000],
+			#             "pickable": True,
+			#             "extruded": True,
+			#         },
+			#         "Bart Stop Exits": {
+			#             "type": "ScatterplotLayer",
+			#             "data": from_data_file("bart_stop_stats.json"),
+			#             "radiusScale": 0.05,
+			#             "getRadius": "exits",
+			#         },
+			#         "Bart Stop Names": {
+			#             "type": "TextLayer",
+			#             "data": from_data_file("bart_stop_stats.json"),
+			#             "getText": "name",
+			#             "getColor": [0, 0, 0, 200],
+			#             "getSize": 15,
+			#         },
+			#         "Outbound Flow": {
+			#             "type": "ArcLayer",
+			#             "data": from_data_file("bart_path_stats.json"),
+			#             "pickable": True,
+			#             "autoHighlight": True,
+			#             "getStrokeWidth": 10,
+			#             "widthScale": 0.0001,
+			#             "getWidth": "outbound",
+			#             "widthMinPixels": 3,
+			#             "widthMaxPixels": 30,
+			#         }
+			#     }
+			# except urllib.error.URLError as e:
+			#     st.error("""
+			#         **This demo requires internet access.**
+			#
+			#         Connection error: %s
+			#     """ % e.reason)
+			#     return
+
+			#st.sidebar.markdown('### Map Layers')
+			#selected_layers = [layer for layer_name, layer in ALL_LAYERS.items()
+			#    if st.sidebar.checkbox(layer_name, True)]
+			#if selected_layers:
+			#    viewport={"latitude": 37.76, "longitude": -122.4, "zoom": 11, "pitch": 50}
+			#    st.deck_gl_chart(viewport=viewport, layers=selected_layers)
+			#else:
+			#    st.error("Please choose at least one layer above.")
+
+			ALL_LAYERS = {
+				'Dados corretos':{
+					'type': 'HexagonLayer',
+					'data': comparecitiesTrue[['lat','lon']],
+					'radius': 200,
+					'elevationScale': 4,
+					'elevationRange': [0, 1000],
+					'pickable': True,
+					'extruded': True,
+					},
+				'Dados Cor. Layer': {
+					'type': 'ScatterplotLayer',
+					'data': comparecitiesTrue[['lat','lon']],
+					},
+				'Dados Incorretos':{
+					'type': 'HexagonLayer',
+					'data': comparecitiesFalse[['lat','lon']],
+					'radius': 200,
+					'elevationScale': 4,
+					'elevationRange': [0, 1000],
+					'pickable': True,
+					'extruded': True,
+					},
+				'Dados Inc. Layer': {
+					'type': 'ScatterplotLayer',
+					'data': comparecitiesFalse[['lat','lon']],
+					}
+				}
+			#print(ALL_LAYERS)
+			st.sidebar.markdown('### Camadas do Mapa')
+			selected_layers = [layer for layer_name, layer in ALL_LAYERS.items() if st.sidebar.checkbox(layer_name, True)]
+			if selected_layers:
+				#lat = st.text_input('Latitude', -23.37)
+				#lon = st.text_input('Latitude', -51.28)
+				viewport = {"latitude": -23.37, "longitude": -51.28, "zoom": 11, "pitch": 50}
+				#viewport['latitude'] = float(lat)
+				#viewport['longitude'] = float(lon)
+				st.deck_gl_chart(viewport=viewport, layers = selected_layers)
+			else:
+				st.error("Por favor, escolha pelo menos uma camada na barra lateral esquerda.")
+
+
+                #Exercicio 04 - Geocode - Verificar se dados batem
+
+		if self.option == app.dicionario[4]:
+			from PIL import Image
+			image = Image.open('Arquivos/hub.jpeg')
+			st.image(image, caption='The Best Team :D',use_column_width=True)
+
+#hub_ia = app_grafica()
+#hub_ia.inicializar()

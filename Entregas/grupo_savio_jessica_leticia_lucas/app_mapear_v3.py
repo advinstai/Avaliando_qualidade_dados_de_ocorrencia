@@ -17,24 +17,8 @@ class app_hub():
 	linhas = []
 	lista_completa = []
 
-	#def carregar(self, path):
-	#	file = open(path, 'r', encoding='utf-8')
-	#	self.linhas = file.readlines()
-	#	df = pd.read_csv(path)
-	#	lista = df.values.tolist()
-	#	return df, lista
-
 	def construir(self, path):
 		df = pd.read_csv(path, sep='\n',delimiter=';')
-		# ifs provisórios ate resolver os bugs
-		#if path == 'Arquivos/df1.csv':
-			#file = open('Arquivos/portalbio_export_17-10-2019-13-06-22.csv', 'r', encoding='utf-8')
-		#if path == 'Arquivos/df2.csv':
-		#	file = open('Arquivos/portalbio_export_16-10-2019-14-39-54.csv', 'r', encoding='utf-8')
-		#if path == 'Arquivos/df3.csv':
-		#	file = open('Arquivos/portalbio_export_17-10-2019-13-15-00.csv', 'r', encoding='utf-8')
-		#self.linhas = file.readlines()
-		#self.lista_completa = [[item for item in itens.split(';')]for itens in self.linhas]
 		lista_completa = [df.columns.values.tolist()] + df.values.tolist()
 		return df, lista_completa
 
@@ -94,11 +78,6 @@ class app_grafica(app_hub):
 		dados['Latitude']=dados['Latitude'].apply(lambda x: parse(x))
 		dados['Longitude']=dados['Longitude'].apply(lambda x: parse(x))
 
-#Codigos do Lazaro
-#df[['area','volume']] = df['raio','altura','idle'].apply(lambda x: myfunction(x))
-#def myfunction(vec):
-#return pd.Series(pi()*vec[0]**2,pi()*vec[0]**2*vec[1])
-
 			#Exercicio 01 valores vazios
 		if self.option == app.dicionario[0]:
 			self.option_01 = st.radio('Exercicio 01: Escolha o grafico:', opcoes)
@@ -121,12 +100,6 @@ class app_grafica(app_hub):
 		#Exercicio 02 Nivel taxonomico
 		if self.option == app.dicionario[1]:
 			st.write('Para cada item identifique até qual nível taxônomico a ocorrência foi identificada.')
-			#st.write(dados[1][2])
-			#verificaTaxonomia metodo importado do felipe
-			#st.bar_chart(verificaTaxonomia(lista))
-			#st.bar_chart(verificaTaxonomia(app.construir(lista)))
-			#if st.checkbox('Valores por Coluna'):
-			#	st.write(verificaTaxonomia(lista))
 			c = dados #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
 			rank = []
 			for i in range(1,len(c)):
@@ -138,18 +111,6 @@ class app_grafica(app_hub):
 			st.bar_chart(rank)
 			if st.checkbox('Valores por Coluna'):
 				st.write(rank)
-
-
-		#chama o nível taxonomico do mais geral, Reino (1), até o mais específico, Espécie (7)
-		#def taxonomicRank(self):
-		#	c = lista #era a minha self.stringList() que chamava uma lista onde cada entrada é uma string do csv
-		#	rank = []
-		#	for i in range(1,len(c)):
-		#	    for j in range(21, 14, -1):
-		#		if c[i][j] != 'Sem Informações':
-		#		    break
-		#	    rank.append(j-14)
-		#	return rank
 
 		#Exercicio 03  Filtros
 		if self.option == app.dicionario[2]:
@@ -244,19 +205,11 @@ class app_grafica(app_hub):
 
 		if self.option == app.dicionario[3]:
 			mapa_bio = dados
-			#mapa_bio = mapa_bio[mapa_bio.Longitude != "Acesso Restrito"]
-			#mapa_bio['Latitude'] = mapa_bio['Latitude'].astype(dtype=np.float64)
-			#mapa_bio['Longitude'] = mapa_bio['Longitude'].astype(dtype=np.float64)
-			#mapa_bio.astype({'Latitude': "float"}).dtypes
-			#mapa_bio.astype({'Longitude': "float"}).dtypes
 			mapa_bio.rename(columns={'Latitude':'lat','Longitude':'lon'}, inplace=True)
 			row = np.arange(0,len(mapa_bio))
 			loc = []
 			for i in row:
 				loc.append([mapa_bio["lat"][i], mapa_bio["lon"][i]])
-			#locDF = pd.DataFrame(loc,columns=['lat', 'lon'])
-			#st.map(locDF)
-			#st.write(locDF)
 			cities =reverse_geocode.search(loc) #Faz processo reverso e através de lat long traz a cidade
 			cities =  pd.DataFrame(cities) #Transforma a lista em dataframe
 			#New dataset com lat long e a respectiva cidade
@@ -271,104 +224,10 @@ class app_grafica(app_hub):
 			comparecitiesFalse = pd.DataFrame(comparecitiesFalse, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
 			comparecitiesTrue = pd.DataFrame(comparecitiesTrue, columns=['lat','lon','Municipio Planilha', 'Reverse Geocode'])
 			st.markdown('### Dados com Localização Correta e Incorreta')
-			#st.map(comparecitiesTrue[['lat','lon']])
-			#st.deck_gl_chart(
-    			#viewport={
-         		#'latitude': -23.37,
-         		#'longitude': -51.28,
-         		#'zoom': 11,
-         		#'pitch': 50,
-     			#},
-     			#layers=[{
-         		#'type': 'HexagonLayer',
-		        # 'data': comparecitiesTrue[['lat','lon']],
-		        # 'radius': 200,
-		        # 'elevationScale': 4,
-		        # 'elevationRange': [0, 1000],
-		        # 'pickable': True,
-		        # 'extruded': True,
-		     	#}, {
-		        # 'type': 'ScatterplotLayer',
-		        # 'data': comparecitiesTrue[['lat','lon']],
-		     	#}])
 			if st.checkbox('Mostrar dados corretos:'):
 				st.write(comparecitiesTrue.loc[:,['Municipio Planilha', 'Reverse Geocode','lat','lon']])
-			#st.markdown('### Dados com Localização Incorreta')
-			#st.map(comparecitiesFalse[['lat','lon']])
-			#st.deck_gl_chart(
-    			#viewport={
-         		#'latitude': -23.37,
-         		#'longitude': -51.28,
-         		#'zoom': 11,
-         		#'pitch': 50,
-     			#},
-     			#layers=[{
-         		#'type': 'HexagonLayer',
-		        # 'data': comparecitiesFalse[['lat','lon']],
-		        # 'radius': 200,
-		        # 'elevationScale': 4,
-		        # 'elevationRange': [0, 1000],
-		        # 'pickable': True,
-		        # 'extruded': True,
-		     	#}, {
-		        # 'type': 'ScatterplotLayer',
-		        # 'data': comparecitiesFalse[['lat','lon']],
-		     	#}])
 			if st.checkbox('Mostrar dados incorretos:'):
 				st.write(comparecitiesFalse.loc[:,['Municipio Planilha', 'Reverse Geocode', 'lat', 'lon']])
-
-			# try:
-			# 	ALL_LAYERS = {
-			#         "Bike Rentals": {
- 			# 			"type": "HexagonLayer",
-			#             "data": from_data_file("bike_rental_stats.json"),
-			#             "radius": 200,
-			#             "elevationScale": 4,
-			#             "elevationRange": [0, 1000],
-			#             "pickable": True,
-			#             "extruded": True,
-			#         },
-			#         "Bart Stop Exits": {
-			#             "type": "ScatterplotLayer",
-			#             "data": from_data_file("bart_stop_stats.json"),
-			#             "radiusScale": 0.05,
-			#             "getRadius": "exits",
-			#         },
-			#         "Bart Stop Names": {
-			#             "type": "TextLayer",
-			#             "data": from_data_file("bart_stop_stats.json"),
-			#             "getText": "name",
-			#             "getColor": [0, 0, 0, 200],
-			#             "getSize": 15,
-			#         },
-			#         "Outbound Flow": {
-			#             "type": "ArcLayer",
-			#             "data": from_data_file("bart_path_stats.json"),
-			#             "pickable": True,
-			#             "autoHighlight": True,
-			#             "getStrokeWidth": 10,
-			#             "widthScale": 0.0001,
-			#             "getWidth": "outbound",
-			#             "widthMinPixels": 3,
-			#             "widthMaxPixels": 30,
-			#         }
-			#     }
-			# except urllib.error.URLError as e:
-			#     st.error("""
-			#         **This demo requires internet access.**
-			#
-			#         Connection error: %s
-			#     """ % e.reason)
-			#     return
-
-			#st.sidebar.markdown('### Map Layers')
-			#selected_layers = [layer for layer_name, layer in ALL_LAYERS.items()
-			#    if st.sidebar.checkbox(layer_name, True)]
-			#if selected_layers:
-			#    viewport={"latitude": 37.76, "longitude": -122.4, "zoom": 11, "pitch": 50}
-			#    st.deck_gl_chart(viewport=viewport, layers=selected_layers)
-			#else:
-			#    st.error("Please choose at least one layer above.")
 
 			ALL_LAYERS = {
 				'Dados corretos':{
@@ -410,11 +269,6 @@ class app_grafica(app_hub):
 				selected_layers = None
 
 			if selected_layers:
-				#lat = st.text_input('Latitude', -23.37)
-				#lon = st.text_input('Latitude', -51.28)
-				#viewport = {"latitude": -23.37, "longitude": -51.28, "zoom": 11, "pitch": 50}
-				#viewport['latitude'] = float(lat)
-				#viewport['longitude'] = float(lon)
 				st.deck_gl_chart(viewport=viewport, layers = selected_layers)
 			else:
 				st.error("Por favor, escolha pelo menos uma camada na barra lateral esquerda.")
