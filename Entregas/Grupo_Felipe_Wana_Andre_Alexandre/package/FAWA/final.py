@@ -216,9 +216,9 @@ class wana:
 	header = None
 	auxh = []
 
-	def __init__(self, file0=None, sep=None):
+	def __init__(self, filea=None, sep=None):
+                self.file0 = filea
 		
-		pass
 		#try:
 
 			#self.file = pd.read_csv(file, sep=sep)
