@@ -22,6 +22,7 @@ https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/wiki/Challe
 ## Relatório
 
 - Item 1 Adicionado. Opera com Pandas
+  - Carrega arquivos CSV e valida todos os campos
 - Item 2 Adicionado. Opera com Numpy
   - Por padrão os dados de entradas são listas com str()
   - Tem adaptador de Pandas para List()
@@ -29,11 +30,14 @@ https://github.com/felipexp8/Avaliando_qualidade_dados_de_ocorrencia/wiki/Challe
   - Suporta _True Color_ no console
 - Item 4 Adicionado. Opera com Pandas
   - Tem função dedicada para validar se o estado está nas coordenadas corretas
+  - **Especial**: Plotagem gráfica das coordenadas
 - Item 5 Adicionado. Testes e resultados no arquivo report
 - Item 7 Adicionado. Teste em outros arquivos do icmBio
   - Classe dedicada para testes
+- Item 8 Adicionado. Realizando teste de ferramentas do grupo do Vitor
+  - Pacote: `analisadados.AnalisadordeDados`
 
-Adicionado o diagrama de classes, ainda está fora da norma... A class AvaliaTax tem seus métodos estáticos (podem ser chamados sem instanciar)
+Adicionado o diagrama de classes simplificado. A class AvaliaTax e de Testes tem seus métodos estáticos (podem ser chamados sem instanciar). As demais classes devem ser instanciadas com seus devidos parâmetros
 
 ## UML
 
@@ -41,6 +45,17 @@ Diagrama de classes do _Unified Modeling Language_
 
 ![img](uml_simples.png)
 
+## Libs e dependências utilizadas:
+
+  - Numpy
+  - Pandas
+  - Matplotlib
+  - Shapefile
+  - Mpl_toolkits.basemap 
+  - Opencage.geocode
+  - Csv
+  
+  
 ## Dúvidas frequentes
 
 ### Métodos estáticos
